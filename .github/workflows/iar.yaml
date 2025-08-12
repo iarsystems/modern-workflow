@@ -10,14 +10,13 @@ on:
 
 env:
   IAR_LMS_BEARER_TOKEN: ${{ secrets.IAR_LMS_BEARER_TOKEN }}
-  IAR_LMS_CLOUD_URL: https://license.prd.sdc.cloud.iar.com
 
 jobs:
   build:
     name: Build
     runs-on: ubuntu-24.04
     container:
-      image: ghcr.io/fae-emea/cxarm:9.60.4-st
+      image: ghcr.io/iarsystems/cxarm:9.70.1-st
     steps:
     - name: Invoke the IAR C/C++ Compiler for Arm
       run: iccarm --version
@@ -33,7 +32,7 @@ jobs:
     needs: build
     runs-on: ubuntu-24.04
     container:
-      image: ghcr.io/fae-emea/cxarm:9.60.4-st
+      image: ghcr.io/iarsystems/cxarm:9.70.1-st
     timeout-minutes: 5
     steps:      
     - name: Checkout project
@@ -55,7 +54,7 @@ jobs:
     needs: verify
     runs-on: ubuntu-24.04
     container:
-      image: ghcr.io/fae-emea/cxarm:9.60.4-st
+      image: ghcr.io/iarsystems/cxarm:9.70.1-st
     steps:      
     - name: Checkout project
       uses: actions/checkout@v4
