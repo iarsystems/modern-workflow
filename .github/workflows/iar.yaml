@@ -1,0 +1,76 @@
+name: CXARM CI
+
+on:
+  workflow_dispatch:
+  push:
+    paths-ignore:
+    - 'README.md'
+    - '.devcontainer/**'
+    - '.vscode/**'
+
+env:
+  IAR_LMS_BEARER_TOKEN: ${{ secrets.IAR_LMS_BEARER_TOKEN }}
+  IAR_LMS_CLOUD_URL: https://license.prd.sdc.cloud.iar.com
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-24.04
+    container:
+      image: ghcr.io/fae-emea/cxarm:9.60.4-st
+    steps:
+    - name: Invoke the IAR C/C++ Compiler for Arm
+      run: iccarm --version
+    - name: Checkout project
+      uses: actions/checkout@v4
+    - name: CMake - Configure
+      run: cmake --preset cxarm-linux
+    - name: CMake - Build
+      run: cmake --build build --config Debug --verbose
+
+  verify:
+    name: Verify
+    needs: build
+    runs-on: ubuntu-24.04
+    container:
+      image: ghcr.io/fae-emea/cxarm:9.60.4-st
+    timeout-minutes: 5
+    steps:      
+    - name: Checkout project
+      uses: actions/checkout@v4
+    - name: CMake - Configure        
+      run: cmake --preset cxarm-linux   
+    - name: IAR C-STAT, Static Analysis
+      working-directory: EWARM
+      run: |
+        apt-get update
+        apt-get -y install xmlstarlet
+        xmlstarlet ed --inplace -u '//cmakePath' -v '/usr/bin/cmake' light-effects-cmake.ewp
+        xmlstarlet ed --inplace -u '//cmakePresetName' -v 'cxarm-linux' light-effects-cmake.ewp
+        xmlstarlet ed --inplace -u '//cmakeOverrideToolEnvs' -v 'false' light-effects-cmake.ewp
+        iarbuild light-effects-cmake.ewp -cstat_analyze Debug -log all -parallel 4
+
+  deploy:
+    name: Deploy
+    needs: verify
+    runs-on: ubuntu-24.04
+    container:
+      image: ghcr.io/fae-emea/cxarm:9.60.4-st
+    steps:      
+    - name: Checkout project
+      uses: actions/checkout@v4
+    - name: CMake - Configure
+      run: cmake --preset cxarm-linux
+    - name: CMake - Build
+      run: cmake --build build --config Release --verbose
+    - name: Convert ELF to Intel Extended
+      run: ielftool --ihex build/Release/light-effects.elf build/Release/light-effects.hex
+    - name: Upload release artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: project-release
+        path: |
+          build/Release/light-effects.elf
+          build/Release/light-effects.hex
+        if-no-files-found: error
+

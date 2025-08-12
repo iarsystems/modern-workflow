@@ -1,0 +1,18 @@
+.cmake_build/
+EWARM\\.cmake_build/
+EWARM/.ew/
+EWARM/Debug/
+EWARM/Release/
+EWARM/RelWithDebInfo/
+EWARM/MinSizeRel/
+EWARM/light-effects/
+EWARM/Backup\ of\ light-effects.ew?
+EWARM/*.xml
+build/
+build-cxarm-*/
+build-ewarm-*/
+settings/
+cpputest*.xml
+.vscode/*.db
+.vscode/*.db-*
+.vscode/iar-vsc.json

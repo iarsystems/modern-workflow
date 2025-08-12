@@ -1,0 +1,133 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 20,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "ewarm-default",
+            "hidden": true,
+            "condition": {
+                "type": "equals",
+                "lhs": "IAR_TOOLCHAIN_PATH",
+                "rhs": ""
+            },
+            "environment": {
+                "IAR_TOOLCHAIN_PATH": "C:/iar/ewarm"
+            }
+        },
+        {
+            "name": "ewarm-windows",
+            "inherits": "ewarm-default",
+            "description": "Build with EWARM (Windows)",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            },
+            "environment": {
+                "CC":  "$env{IAR_TOOLCHAIN_PATH}/arm/bin/iccarm.exe",
+                "CXX": "$env{IAR_TOOLCHAIN_PATH}/arm/bin/iccarm.exe",
+                "ASM": "$env{IAR_TOOLCHAIN_PATH}/arm/bin/iasmarm.exe"
+            },
+            "cacheVariables": {
+                "CMAKE_EXPORT_COMPILE_COMMANDS":true
+            },
+            "generator": "Ninja Multi-Config",
+            "binaryDir": "${sourceDir}/build"
+        },
+        {
+            "name": "cxarm-linux",
+            "description": "Build with CXARM (Linux)",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            },
+            "environment": {
+                "CC":  "/opt/iar/cxarm/arm/bin/iccarm",
+                "CXX": "/opt/iar/cxarm/arm/bin/iccarm",
+                "ASM": "/opt/iar/cxarm/arm/bin/iasmarm"
+            },
+            "cacheVariables": {
+                "CMAKE_EXPORT_COMPILE_COMMANDS":true
+            },
+            "generator": "Ninja Multi-Config",
+            "binaryDir": "${sourceDir}/build"
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "debug-win",
+            "displayName": "Build Debug",
+            "description": "Disable optimizations - include debug information.",
+            "configurePreset": "ewarm-windows",
+            "configuration": "Debug"
+        },
+        {
+            "name": "release-win",
+            "displayName": "Build Release",
+            "description": "Optimize for speed - exclude debug information.",
+            "configurePreset": "ewarm-windows",
+            "configuration": "Release"
+        },
+        {
+            "name": "relwithdebinfo-win",
+            "displayName": "Build RelWithDebInfo",
+            "description": "Optimize for speed - include debug information.",
+            "configurePreset": "ewarm-windows",
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "minsizerel-win",
+            "displayName": "Build MinSizeRel",
+            "description": "Optimize for smallest binary size - exclude debug information.",
+            "configurePreset": "ewarm-windows",
+            "configuration": "MinSizeRel"
+        },
+        {
+            "name": "debug-lnx",
+            "displayName": "Build Debug",
+            "description": "Disable optimizations - include debug information.",
+            "configurePreset": "cxarm-linux",
+            "configuration": "Debug"
+        },
+        {
+            "name": "release-lnx",
+            "displayName": "Build Release",
+            "description": "Optimize for speed - exclude debug information.",
+            "configurePreset": "cxarm-linux",
+            "configuration": "Release"
+        },
+        {
+            "name": "relwithdebinfo-lnx",
+            "displayName": "Build RelWithDebInfo",
+            "description": "Optimize for speed - include debug information.",
+            "configurePreset": "cxarm-linux",
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "minsizerel-lnx",
+            "displayName": "Build MinSizeRel",
+            "description": "Optimize for smallest binary size - exclude debug information.",
+            "configurePreset": "cxarm-linux",
+            "configuration": "MinSizeRel"
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "test-win",
+            "displayName": "Test (Windows)",
+            "description": "Test the build",
+            "configurePreset": "ewarm-windows"
+        },
+        {
+            "name": "test-lnx",
+            "displayName": "Test (Linux)",
+            "description": "Test the build",
+            "configurePreset": "cxarm-linux"
+        }
+    ]
+}

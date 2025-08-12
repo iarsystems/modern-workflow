@@ -1,0 +1,261 @@
+{
+    // .vscode/launch.json example for IAR Build Tools (Windows and Linux)
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "IAR Debug (Simulator)",
+            "type": "cspy",
+            "request": "launch",
+            "target": "arm",
+            "program": "${command:cmake.launchTargetPath}",
+            "stopOnSymbol": "main",
+            "workbenchPath": "${input:pick-bcx-path}",
+            "projectPath": "${workspaceRoot}",
+            "driver": "Simulator",
+            "driverOptions": [
+                "--endian=little",
+                "--cpu=Cortex-M4",
+                "--fpu=VFPv4_SP",
+                "-p",
+                "${input:pick-bcx-path}/arm/config/debugger/ST/STM32F429II.ddf",
+                "--semihosting",
+                "--device=STM32F429II",
+            ]
+        },
+        {
+            "name": "IAR Debug (Windows/I-Jet/SWD)",
+            "type": "cspy",
+            "request": "launch",
+            "target": "arm",
+            "program": "${command:cmake.launchTargetPath}",
+            "stopOnSymbol": "main",
+            "projectPath": "${workspaceRoot}",
+            "driver": "I-jet",
+            "workbenchPath": "${input:pick-ew-path}",
+            "driverOptions": [
+                "--endian=little",
+                "--cpu=Cortex-M4",
+                "--fpu=VFPv4_SP",
+                "-p",
+                "${input:pick-ew-path}/arm/config/debugger/ST/STM32F429II.ddf",
+                "--device=STM32F429II",
+                "--semihosting",
+                "--jet_standard_reset=9,0,0",
+                "--reset_style=\"0,-,0,Disabled__no_reset_\"",
+                "--reset_style=\"1,-,0,Software\"",
+                "--reset_style=\"2,-,0,Hardware\"",
+                "--reset_style=\"3,-,0,Core\"",
+                "--reset_style=\"4,-,0,System\"",
+                "--reset_style=\"9,ConnectUnderReset,1,Connect_during_reset\"",
+                "--jet_power_from_probe=leave_on",
+                "--drv_interface=SWD",
+                "--jet_cpu_clock=168000000",
+                "--drv_catch_exceptions=0xff0"
+            ],
+            "download": {
+                "flashLoader": "${input:pick-ew-path}/arm/config/flashloader/ST/FlashSTM32F427xI.board",
+                "deviceMacros": [
+                    "${input:pick-ew-path}/arm/config/debugger/ST/STM32F4xx.dmac"
+                ]
+            }
+        },
+        {
+            "name": "IAR Debug (Windows/I-Jet/ETM)",
+            "type": "cspy",
+            "request": "launch",
+            "target": "arm",
+            "program": "${command:cmake.launchTargetPath}",
+            "stopOnSymbol": "main",
+            "projectPath": "${workspaceRoot}",
+            "driver": "I-jet",
+            "workbenchPath": "${input:pick-ew-path}",
+            "driverOptions": [
+                "--endian=little",
+                "--cpu=Cortex-M4",
+                "--fpu=VFPv4_SP",
+                "-p",
+                "${input:pick-ew-path}/arm/config/debugger/ST/STM32F429II.ddf",
+                "--device=STM32F429II",
+                "--semihosting",
+                "--jet_standard_reset=9,0,0",
+                "--reset_style=\"0,-,0,Disabled__no_reset_\"",
+                "--reset_style=\"1,-,0,Software\"",
+                "--reset_style=\"2,-,0,Hardware\"",
+                "--reset_style=\"3,-,0,Core\"",
+                "--reset_style=\"4,-,0,System\"",
+                "--reset_style=\"9,ConnectUnderReset,1,Connect_during_reset\"",
+                "--jet_power_from_probe=leave_on",
+                "--drv_interface=SWD",
+                "--jet_cpu_clock=168000000",
+                "--drv_catch_exceptions=0xff0",
+                "--drv_trace_settings=ETM"
+            ],
+            "download": {
+                "flashLoader": "${input:pick-ew-path}/arm/config/flashloader/ST/FlashSTM32F427xI.board",
+                "deviceMacros": [
+                    "${input:pick-ew-path}/arm/config/debugger/ST/STM32F4xx.dmac"
+                ]
+            }
+        },
+        {
+            "name": "IAR Debug (Windows/J-Link)",
+            "type": "cspy",
+            "request": "launch",
+            "target": "arm",
+            "program": "${command:cmake.launchTargetPath}",
+            "stopOnSymbol": "main",
+            "projectPath": "${workspaceRoot}",
+            "driver": "J-Link/J-Trace",
+            "workbenchPath": "${input:pick-ew-path}",
+            "driverOptions": [
+                "--endian=little",
+                "--cpu=Cortex-M4",
+                "--fpu=VFPv4_SP",
+                "-p",
+                "${input:pick-ew-path}/arm/config/debugger/ST/STM32F429II.ddf",
+                "--device=STM32F429II",
+                "--semihosting",
+                "--drv_communication=USB0",
+                "--drv_interface_speed=auto",
+                "--jlink_initial_speed=1000",
+                "--jlink_reset_strategy=0,0",
+                "--drv_interface=SWD",
+                "--drv_catch_exceptions=0x000",
+                "--drv_swo_clock_setup=168000000,0,2000000"
+            ],
+            //"download": {
+            //    "flashLoader": "${input:pick-ew-path}/arm/config/flashloader/ST/FlashSTM32F427xI.board",
+            //    "deviceMacros": [
+            //        "${input:pick-ew-path}/arm/config/debugger/ST/STM32F4xx.dmac"
+            //    ]
+            //}
+        },
+        {
+            "name": "IAR Debug (Linux/I-Jet/SWD)",
+            "type": "cspy",
+            "request": "launch",
+            "target": "arm",
+            "program": "${command:cmake.launchTargetPath}",
+            "stopOnSymbol": "main",
+            "projectPath": "${workspaceRoot}",
+            "driver": "I-jet",
+            "workbenchPath": "${input:pick-bcx-path}",
+            "driverOptions": [
+                "--endian=little",
+                "--cpu=Cortex-M4",
+                "--fpu=VFPv4_SP",
+                "-p",
+                "${input:pick-bcx-path}/arm/config/debugger/ST/STM32F429II.ddf",
+                "--device=STM32F429II",
+                "--semihosting",
+                "--jet_standard_reset=9,0,0",
+                "--reset_style=\"0,-,0,Disabled__no_reset_\"",
+                "--reset_style=\"1,-,0,Software\"",
+                "--reset_style=\"2,-,0,Hardware\"",
+                "--reset_style=\"3,-,0,Core\"",
+                "--reset_style=\"4,-,0,System\"",
+                "--reset_style=\"9,ConnectUnderReset,1,Connect_during_reset\"",
+                "--jet_power_from_probe=leave_on",
+                "--drv_interface=SWD",
+                "--jet_cpu_clock=168000000",
+                "--drv_catch_exceptions=0xff0"
+            ],
+            "download": {
+                "flashLoader": "${input:pick-bcx-path}/arm/config/flashloader/ST/FlashSTM32F427xI.board",
+                "deviceMacros": [
+                    "${input:pick-bcx-path}/arm/config/debugger/ST/STM32F4xx.dmac"
+                ]
+            }
+        },
+        // {
+        //     "name": "IAR Debug (Linux/I-Jet/ETM)",
+        //     "type": "cspy",
+        //     "request": "launch",
+        //     "target": "arm",
+        //     "program": "${command:cmake.launchTargetPath}",
+        //     "stopOnSymbol": "main",
+        //     "projectPath": "${workspaceRoot}",
+        //     "driver": "I-jet",
+        //     "workbenchPath": "${input:pick-bcx-path}",
+        //     "driverOptions": [
+        //         "--endian=little",
+        //         "--cpu=Cortex-M4",
+        //         "--fpu=VFPv4_SP",
+        //         "-p",
+        //         "${input:pick-bcx-path}/arm/config/debugger/ST/STM32F429II.ddf",
+        //         "--device=STM32F429II",
+        //         "--semihosting",
+        //         "--jet_standard_reset=9,0,0",
+        //         "--reset_style=\"0,-,0,Disabled__no_reset_\"",
+        //         "--reset_style=\"1,-,0,Software\"",
+        //         "--reset_style=\"2,-,0,Hardware\"",
+        //         "--reset_style=\"3,-,0,Core\"",
+        //         "--reset_style=\"4,-,0,System\"",
+        //         "--reset_style=\"9,ConnectUnderReset,1,Connect_during_reset\"",
+        //         "--jet_power_from_probe=leave_on",
+        //         "--drv_interface=SWD",
+        //         "--jet_cpu_clock=168000000",
+        //         "--drv_catch_exceptions=0xff0",
+        //         "--drv_trace_settings=ETM"
+        //     ],
+        //     "download": {
+        //         "flashLoader": "${input:pick-bcx-path}/arm/config/flashloader/ST/FlashSTM32F427xI.board",
+        //         "deviceMacros": [
+        //             "${input:pick-bcx-path}/arm/config/debugger/ST/STM32F4xx.dmac"
+        //         ]
+        //     }
+        // },
+        {
+            "name": "IAR Debug (Linux/J-Link)",
+            "type": "cspy",
+            "request": "launch",
+            "target": "arm",
+            "program": "${command:cmake.launchTargetPath}",
+            "stopOnSymbol": "main",
+            "projectPath": "${workspaceRoot}",
+            "driver": "J-Link/J-Trace",
+            "workbenchPath": "${input:pick-bcx-path}",
+            "driverOptions": [
+                "--endian=little",
+                "--cpu=Cortex-M4",
+                "--fpu=VFPv4_SP",
+                "-p",
+                "${input:pick-bcx-path}/arm/config/debugger/ST/STM32F429II.ddf",
+                "--device=STM32F429II",
+                "--semihosting",
+                "--drv_communication=USB0",
+                "--drv_interface_speed=auto",
+                "--jlink_initial_speed=1000",
+                "--jlink_reset_strategy=0,0",
+                "--drv_interface=SWD",
+                "--drv_catch_exceptions=0x000",
+                "--drv_swo_clock_setup=168000000,0,2000000"
+            ],
+            //"download": {
+            //    "flashLoader": "${input:pick-bcx-path}/arm/config/flashloader/ST/FlashSTM32F427xI.board",
+            //    "deviceMacros": [
+            //        "${input:pick-bcx-path}/arm/config/debugger/ST/STM32F4xx.dmac"
+            //    ]
+            //}
+        }
+    ],
+    "inputs": [
+        {
+            "id": "pick-ew-path",
+            "description": "Pick (or type) a valid path to the Embedded Workbench for Arm",
+            "default": "C:/iar/ewarm",
+            "type":"pickString",
+            "options": [
+                "C:/iar/ewarm-9.70.1"            ]
+        },
+        {
+            "id": "pick-bcx-path",
+            "description": "Pick (or type) a valid path to the IAR Build Tools for Arm",
+            "default": "/opt/iar/cxarm",
+            "type":"pickString",
+            "options": [
+                "/opt/iar/cxarm",
+                "/opt/iar/cxarm-9.70.1"            ]
+        }
+    ]
+}

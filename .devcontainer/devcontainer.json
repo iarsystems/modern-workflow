@@ -1,0 +1,32 @@
+{
+  // arm:9.70.1-st
+  // IAR Build Tools for Arm w/ ST device support
+  // Update the image for use with other variants
+  // More information: https://github.com/iarsystems/containers/wiki/Arm-image-variants
+  "image": "ghcr.io/iarsystems/arm:9.70.1-st",
+  // Set the Container's environment variables
+  "containerEnv": {
+    "HOME": "/home/ubuntu"
+  },
+  // Customiszations installs the IAR Extensions for VS Code
+  // More information: https://iar.com/vscode
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "iarsystems.iar-extension-pack",
+        "ms-vscode.cpptools-extension-pack",
+        "ms-vscode-remote.vscode-remote-extensionpack",
+        "github.vscode-github-actions"
+        
+      ]
+    }
+  },
+  // The License Management System is updated
+  //  for the Dev Container at build-time.
+  "features": {
+    "./lmsc": {}
+  },
+  // Comment to use `root` as user.
+  // More information: https://containers.dev/implementors/json_reference/#remoteUser
+  "remoteUser": "ubuntu"
+}
