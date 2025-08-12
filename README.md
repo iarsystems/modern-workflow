@@ -1,4 +1,5 @@
 # Modern Development Workflow with IAR
+[![CXARM CI](https://github.com/iarsystems/modern-workflow/actions/workflows/iar.yaml/badge.svg)](https://github.com/iarsystems/modern-workflow/actions/workflows/iar.yaml)
 
 This repository contains a project example that can be developed from within a Dev Cotainer using Visual Studio Code with its remote development extensions.
 
@@ -38,4 +39,5 @@ Dev Containers simplify bootstrapping the whole development environment with the
 - [Dev Container specification](https://containers.dev/)
 - [VS Code - Remote Development Extension Pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack)
 - [VS Code - IAR Extension Pack](https://marketplace.visualstudio.com/items?itemName=iarsystems.iar-extension-pack)
+
 
