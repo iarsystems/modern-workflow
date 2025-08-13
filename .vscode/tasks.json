@@ -7,10 +7,10 @@
             "label": "Delete build directory",
             "type": "shell",
             "windows": {
-                "command": "bash -c 'rm -frv build-cxarm-win'",
+                "command": "bash -c 'rm -frv build'",
             },
             "linux": {
-                "command": "bash -c 'rm -frv build-cxarm-lnx'",
+                "command": "bash -c 'rm -frv build'",
             },
             "group": "build"
         },
