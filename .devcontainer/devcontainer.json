@@ -6,14 +6,16 @@
   "image": "ghcr.io/iarsystems/arm:9.70.1-st",
   // Set the Container's environment variables
   "containerEnv": {
-    "HOME": "/home/ubuntu"
+    "HOME": "/home/ubuntu",
+    "IAR_LMS_BEARER_TOKEN": "${localEnv:IAR_LMS_BEARER_TOKEN}"
   },
   // Customiszations installs the IAR Extensions for VS Code
   // More information: https://iar.com/vscode
   "customizations": {
     "vscode": {
       "extensions": [
-        "iarsystems.iar-extension-pack",
+        //"iarsystems.iar-extension-pack",
+        "iarsystems.iar-debug",
         "ms-vscode.cpptools-extension-pack",
         "ms-vscode-remote.vscode-remote-extensionpack",
         "github.vscode-github-actions"
