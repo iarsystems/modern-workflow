@@ -47,7 +47,7 @@ This method uses the [Microsoft Entra ID](https://learn.microsoft.com/en-us/entr
 
 3. CTRL+Click on the provided link, enter with the provided code, click "Connect" and then "Continue".
 
-<img width="392" height="299" alt="image" src="https://github.com/user-attachments/assets/b486e705-5118-4e1f-8a65-355f617aff16" />
+<img width="392" height="299" alt="image" src="https://github.com/user-attachments/assets/0ff718b8-4c43-4ad7-a91d-e6d5cb1dd63d" />
 
 4. Go back to Visual Studio Code and build the project using the IAR Build Tools.
 
@@ -68,6 +68,7 @@ Dev Containers simplify bootstrapping the whole development environment with the
 - [Dev Container specification](https://containers.dev/)
 - [VS Code - Remote Development Extension Pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack)
 - [VS Code - IAR Extension Pack](https://marketplace.visualstudio.com/items?itemName=iarsystems.iar-extension-pack)
+
 
 
 
