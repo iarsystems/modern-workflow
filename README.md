@@ -11,24 +11,50 @@ The target is set to work with the IAR STM32F429II-ACA board although can be mod
 This project example make use of one of the [IAR public container image](https://github.com/iarsystems/containers) for Arm with ST device support.
 
 ## Getting started
+Perform the following:
+
 1. Launch [Visual Studio Code](https://code.visualstudio.com/).
-2. Connect to WSL.
-3. Clone this repository.
+2. If running from Windows, [connect to WSL](https://code.visualstudio.com/docs/remote/wsl).
+
+<img width="349" height="124" alt="Code_uC77i5JnhG" src="https://github.com/user-attachments/assets/00be3f75-48d2-45e3-baf1-74dd9fc540bb" />
+<img width="603" height="116" alt="Code_dbNBZZXXQ3" src="https://github.com/user-attachments/assets/014f5ace-220b-497d-a7e2-518deaa3c22d" />
+
+3. [Clone](https://code.visualstudio.com/docs/sourcecontrol/overview) and open this repository.
+
+<img width="360" height="297" alt="image" src="https://github.com/user-attachments/assets/efa87139-54d0-4978-beb4-e8dce4316734" />
+
+>[!TIP]
+>This functionality depends on having Git installed. You might need to `sudo apt install git` or equivalent on your Linux distribution.
+
 4. Reopen Visual Studio Code in a Dev Container.
+
+<img width="454" height="110" alt="image" src="https://github.com/user-attachments/assets/7435a085-77a1-42bc-8bab-94a70495a987" />
+
 5. Install the recommended extensions from IAR and Microsoft.
+
 6. Select a configure preset for modern-workflow: __cxarm-linux__ (Build with IAR).
 
-### Login to the IAR Cloud License service
-The IAR Build Tools require an user license to operate and, for that reason, the project will not build at first. Proceed as follows:
+## Authenticate to the IAR Cloud License service
+The IAR Build Tools require an user license to operate and, for that reason, the project will not build at first. Choose one of the following methods:
+### Via Entra ID
+This method uses the [Microsoft Entra ID](https://learn.microsoft.com/en-us/entra/fundamentals/whatis) technology and it requires your user mail account associated to this service.
 1. Choose Terminal/Run task.../IAR Cloud login.
 
 2. Select the authentication code and copy it to the clipboard (CTRL+C). 
 
 3. CTRL+Click on the provided link, enter with the provided code, click "Connect" and then "Continue".
 
-<img width="392" height="299" alt="image" src="https://github.com/user-attachments/assets/72c3888b-c71b-4eb7-a4fa-99dc0289e128" />
+<img width="392" height="299" alt="image" src="https://github.com/user-attachments/assets/b486e705-5118-4e1f-8a65-355f617aff16" />
 
-4. Go back to Visual Studio Code and rebuild the CMake project.
+4. Go back to Visual Studio Code and build the project using the IAR Build Tools.
+
+### Via Evaluation Token
+Alternatively, it is possible to use a time-limited Evaluation Token provided by IAR.
+1. Inside the Dev Container, choose Terminal/New Terminal and enter the following:
+```bash
+export IAR_LMS_BEARER_TOKEN=<the-evaluation-token-you-received>
+```
+2. It should now be possible to build the project using the IAR Build Tools.
 
 ## Summary
 Dev Containers simplify bootstrapping the whole development environment with the IAR Build Tools in Visual Studio Code.
@@ -39,5 +65,7 @@ Dev Containers simplify bootstrapping the whole development environment with the
 - [Dev Container specification](https://containers.dev/)
 - [VS Code - Remote Development Extension Pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack)
 - [VS Code - IAR Extension Pack](https://marketplace.visualstudio.com/items?itemName=iarsystems.iar-extension-pack)
+
+
 
 
