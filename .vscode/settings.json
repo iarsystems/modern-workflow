@@ -55,6 +55,5 @@
         "workflowPreset": {
             "statusBarVisibility": "hidden"
         }        
-    },
-    "iar-build.iarInstallDirectories": ["/opt/iar"]
+    }
 }
