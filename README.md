@@ -1,14 +1,14 @@
 # Modern Development Workflow with IAR
 [![CXARM CI](https://github.com/iarsystems/modern-workflow/actions/workflows/iar.yaml/badge.svg)](https://github.com/iarsystems/modern-workflow/actions/workflows/iar.yaml)
 
-This repository contains a project example that can be developed from within a Dev Cotainer using Visual Studio Code with its remote development extensions.
+This repository contains a project example that can be developed from within a Dev Container using Visual Studio Code with its remote development extensions.
 
 A Dev Container provides a pre-configured development environment. It allows you to work in a development environment that has been specifically configured for your repository. It will have all the tools, scripts and configurations you need to work on that project. Everyone who works on that repository will have the same environment, reducing the ocurrence of environment-related problems. Each repository can have settings that will give contributors a ready-to-use, fit-for-purpose environment, and the environment on your local machine will be unchanged.
 
 The target is set to work with the IAR STM32F429II-ACA board although can be modified for working with other boards.
 
 ## IAR public container images
-This project example make use of one of the [IAR public container image](https://github.com/iarsystems/containers) for Arm with ST device support.
+This project example makes use of one of the [IAR public container images](https://github.com/iarsystems/containers) for Arm with ST device support.
 
 ## Getting started
 Perform the following:
@@ -26,13 +26,16 @@ Perform the following:
 >[!TIP]
 >This functionality depends on having Git installed. You might need to `sudo apt install git` or equivalent on your Linux distribution.
 
-4. Reopen Visual Studio Code in a Dev Container.
+4. A toaster notification in the lower right corner will offer to reopen the folder to develop in a container.
 
 <img width="454" height="110" alt="image" src="https://github.com/user-attachments/assets/7435a085-77a1-42bc-8bab-94a70495a987" />
 
+>[!TIP]
+>The toaster nofitication only appears for a short while. If you miss it, you can use the pallete (CTRL+SHIFT+P) and use, for example, "Dev Containers: reopen in container".
+
 5. Install the recommended extensions from IAR and Microsoft.
 
-6. Select a configure preset for modern-workflow: __cxarm-linux__ (Build with IAR).
+6. The CMake Tools extension will offer to select a preset for configuring the project. A drop-down selection box will offer __cxarm-linux__ as an option for buildign with the IAR Build Tools.
 
 ## Authenticate to the IAR Cloud License service
 The IAR Build Tools require an user license to operate and, for that reason, the project will not build at first. Choose one of the following methods:
@@ -44,7 +47,7 @@ This method uses the [Microsoft Entra ID](https://learn.microsoft.com/en-us/entr
 
 3. CTRL+Click on the provided link, enter with the provided code, click "Connect" and then "Continue".
 
-<img width="392" height="299" alt="image" src="https://github.com/user-attachments/assets/b486e705-5118-4e1f-8a65-355f617aff16" />
+<img width="392" height="299" alt="image" src="https://github.com/user-attachments/assets/0ff718b8-4c43-4ad7-a91d-e6d5cb1dd63d" />
 
 4. Go back to Visual Studio Code and build the project using the IAR Build Tools.
 
@@ -65,6 +68,7 @@ Dev Containers simplify bootstrapping the whole development environment with the
 - [Dev Container specification](https://containers.dev/)
 - [VS Code - Remote Development Extension Pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack)
 - [VS Code - IAR Extension Pack](https://marketplace.visualstudio.com/items?itemName=iarsystems.iar-extension-pack)
+
 
 
 
