@@ -53,11 +53,13 @@ This method uses the [Microsoft Entra ID](https://learn.microsoft.com/en-us/entr
 
 ### Via Evaluation Token
 Alternatively, it is possible to use a time-limited Evaluation Token provided by IAR.
-1. Inside the Dev Container, choose Terminal/New Terminal and enter the following:
+1. In your host environment, set the following variable:
 ```bash
 export IAR_LMS_BEARER_TOKEN=<the-evaluation-token-you-received>
 ```
-2. It should now be possible to build the project using the IAR Build Tools.
+2. From within your Dev Container, access the command pallete and select "Dev Containers: Rebuild Container".
+
+It should now be possible to build the project using the IAR Build Tools.
 
 ## Summary
 Dev Containers simplify bootstrapping the whole development environment with the IAR Build Tools in Visual Studio Code.
@@ -68,6 +70,7 @@ Dev Containers simplify bootstrapping the whole development environment with the
 - [Dev Container specification](https://containers.dev/)
 - [VS Code - Remote Development Extension Pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack)
 - [VS Code - IAR Extension Pack](https://marketplace.visualstudio.com/items?itemName=iarsystems.iar-extension-pack)
+
 
 
 
