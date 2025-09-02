@@ -28,7 +28,11 @@
   "features": {
     "./lmsc": {}
   },
-  // Comment to use `root` as user.
+  // uncomment to use `ubuntu` as user instead of `root.`
   // More information: https://containers.dev/implementors/json_reference/#remoteUser
-  "remoteUser": "ubuntu"
+  // "remoteUser": "ubuntu",
+  // Exposes the host's USB bus to the dev container.
+  "runArgs": [
+    "--device=/dev/bus/usb"
+  ]
 }
