@@ -12,6 +12,7 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 # Declare a CMake project
 project(light-effects)
+enable_language(ASM)
 
 # Add the executable target
 add_executable(${PROJECT_NAME})
