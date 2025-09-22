@@ -1,0 +1,20 @@
+[submodule "cmsis_6"]
+	path = cmsis_6
+	url = https://github.com/arm-software/cmsis_6.git
+  branch = v6.2.0
+  shallow = true
+[submodule "cmsis-device-f4"]
+	path = cmsis-device-f4
+	url = https://github.com/stmicroelectronics/cmsis-device-f4.git
+  branch = v2.6.11
+  shallow = true
+[submodule "stm32f4xx-hal-driver"]
+	path = stm32f4xx-hal-driver
+  url = https://github.com/stmicroelectronics/stm32f4xx-hal-driver.git
+  branch = v1.8.5
+  shallow = true
+[submodule "acutest"]
+	path = acutest
+	url = https://github.com/mity/acutest.git
+  branch = master
+  shallow = true
