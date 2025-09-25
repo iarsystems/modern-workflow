@@ -1,17 +1,9 @@
-#include <cstdint>
-#include <cstdlib>
+#include <stdint.h>
+#include <errno.h>
 
-#include "test_config.h"
-#include "CppUTest/TestHarness.h"
+#include "acutest.h"
+#include "util.h"
 
-enum {
-  WORDS = 128
-};
-
-typedef struct data_s {
-  uint32_t word[WORDS];
-  size_t length;
-} data_t;
 
 static const data_t data_0 = { .word = {
   0xb8d0f8caul,0x36d42d43ul,0x96e6c5a0ul,0x515d7e4aul,0x7baba99eul,0x0d489ce3ul,0xa33b9776ul,0xcaa4718ful,
@@ -51,59 +43,43 @@ static const data_t data_1 = { .word = {
   0x1054490dul,0x8e1f9838ul,0x8c7686e8ul,0xe7e1599cul,0x1bbd5435ul,0xf1f2dddbul,0xcbb77cc7ul,0x2f99ab0eul},
   .length = WORDS };
 
+void linear_search_test() {
+  uint32_t res;
+  TEST_CASE("Data 0 - Search 1");
+  res = linear_search(0x6e41b303ul, &data_0);
+  TEST_CHECK(0x7f == res);
 
-uint32_t linear_search(uint32_t x, const data_t *data)
-{
-  volatile uint32_t n = 0;
+  TEST_CASE("Data 0 - Search 2");
+  res = linear_search(0xb8d0f8caul, &data_0);
+  TEST_CHECK(0x00 == res);
 
-  while (n < data->length && data->word[n] != x)
-  {
-    n++;
-  }
+  TEST_CASE("Data 0 - Search 3");
+  res = linear_search(0x57ba44cdul, &data_0);
+  TEST_CHECK(0x40 == res);
 
-  if(n < data->length)
-  {
-    return n;
-  }
-  return 0xfffffffful;
+  TEST_CASE("Data 0 - Search 4");
+  res = linear_search(0x00ul, &data_0);
+  TEST_CHECK(0xfffffffful == res);
+  
+  TEST_CASE("Data 1 - Search 1");
+  res = linear_search(0x929cb50bul, &data_1);
+  TEST_CHECK(0x00 == res);
+  
+  TEST_CASE("Data 1 - Search 2");
+  res = linear_search(0x8ee1504bul, &data_1);
+  TEST_CHECK(0x40 == res);
+  
+  TEST_CASE("Data 1 - Search 3");
+  res = linear_search(0x2f99ab0eul, &data_1);
+  TEST_CHECK(0x7f == res);
+  
+  TEST_CASE("Data 1 - Search 4");
+  res = linear_search(0x00ul, &data_1);
+  TEST_CHECK(0xfffffffful == res);
 }
 
-TEST_GROUP(linear_search)
-{
-  void setup() { }
-  void teardown() { }
+TEST_LIST = {
+  { "test_linear", linear_search_test },
+
+  { NULL, NULL }
 };
-
-TEST(linear_search, testData0Search1)
-{
-  CHECK_EQUAL(0x7f, linear_search(0x6e41b303ul, &data_0));
-}
-TEST(linear_search, testData0Search2)
-{
-  CHECK_EQUAL(0x00, linear_search(0xb8d0f8caul, &data_0));
-}
-TEST(linear_search, testData0Search3)
-{
-  CHECK_EQUAL(0x40, linear_search(0x57ba44cdul, &data_0));
-}
-TEST(linear_search, testData0Search4)
-{
-  CHECK_EQUAL(0xfffffffful, linear_search(0x00ul, &data_0));
-}
-
-TEST(linear_search, testData1Search1)
-{
-  CHECK_EQUAL(0x00, linear_search(0x929cb50bul, &data_1));
-}
-TEST(linear_search, testData1Search2)
-{
-  CHECK_EQUAL(0x40, linear_search(0x8ee1504bul, &data_1));
-}
-TEST(linear_search, testData1Search3)
-{
-  CHECK_EQUAL(0x7f, linear_search(0x2f99ab0eul, &data_1));
-}
-TEST(linear_search, testData1Search4)
-{
-  CHECK_EQUAL(0xfffffffful, linear_search(0x00ul, &data_1));
-}
