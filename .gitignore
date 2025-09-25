@@ -1,6 +1,6 @@
 build/
 settings/
-cpputest*.xml
+CMakeUserPresets.json
 .vscode/*.db
 .vscode/*.db-*
 .vscode/iar-vsc.json
