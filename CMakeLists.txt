@@ -10,9 +10,10 @@ set(CMAKE_CONFIGURATION_TYPES Debug Release RelWithDebInfo MinSizeRel)
 # Include `./cmake` to the CMake's module path
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-# Declare a CMake project
+# Configure a CMake project
 project(light-effects)
 enable_language(ASM)
+enable_testing()
 
 # Add the executable target
 add_executable(${PROJECT_NAME})
@@ -23,7 +24,7 @@ add_executable(${PROJECT_NAME})
 
 # Set the target's compiler options
 target_compile_options(${PROJECT_NAME} PRIVATE
-  $<$<COMPILE_LANGUAGE:C,CXX>:--libc++ --no_wrap_diagnostics -e>
+  $<$<COMPILE_LANGUAGE:C,CXX>:--dlib_config full --no_wrap_diagnostics -e>
   $<$<COMPILE_LANGUAGE:ASM>:-s+>
   --cpu=cortex-m4
   --fpu=vfpv4_sp
@@ -73,12 +74,14 @@ target_sources(${PROJECT_NAME} PRIVATE
 )
 
 # Add application's sources
-add_subdirectory(Src)
+add_subdirectory(src)
+add_subdirectory(lib)
 
 # Set the linker options
 target_link_options(${PROJECT_NAME} PRIVATE
-  --map=${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/$<TARGET_PROPERTY:NAME>.map
   --config=${CMAKE_CURRENT_SOURCE_DIR}/cmsis-device-f4/Source/Templates/iar/linker/stm32f429xx_flash.icf
+  --map=${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/$<TARGET_PROPERTY:NAME>.map
+  --redirect=_Printf=_PrintfFullNoMb
   --no_wrap_diagnostics
   --cpu=cortex-m4
   --fpu=vfpv4_sp
@@ -86,11 +89,3 @@ target_link_options(${PROJECT_NAME} PRIVATE
   --vfe
 )
 
-# Convert ELF to stripped binaries (.hex)
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-  COMMAND ${CMAKE_IAR_ELFTOOL} --silent
-    --strip
-    --ihex
-    $<CONFIG>/$<TARGET_PROPERTY:NAME>.elf
-    $<CONFIG>/$<TARGET_PROPERTY:NAME>.hex
-)

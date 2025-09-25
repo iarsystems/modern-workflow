@@ -16,11 +16,7 @@
   */
 
 #include "stm32f429ii_aca.h"
-#include "test_config.h"
 #include "led.h"
-#include "CppUTest/CommandLineTestRunner.h"
-#include "CppUTest/TestPlugin.h"
-#include "CppUTest/TestRegistry.h"
 
 /**
   * @brief  Generate a mask for light effects.
@@ -29,7 +25,6 @@
   */
 uint8_t generateMaskEffect(void)
 {
-  const char *av_override[] = {"exe", "-v", "-ojunit"}; // verbose mode on
   const uint8_t effect_speed = 1;
   static uint8_t n = 0;
   static uint8_t led_mask = 0;
@@ -42,7 +37,7 @@ uint8_t generateMaskEffect(void)
     break;
   case SW2_OFF:
     led_mask = (n++ & 2) ? 1 : 0;
-    CommandLineTestRunner::RunAllTests(2, (char **)av_override);
+    /* Run tests */
     break;
   case SW2_ON:
     switch ((n++ & (3 << effect_speed)) >> effect_speed)
