@@ -79,3 +79,5 @@ target_link_options(${PROJECT_NAME} PRIVATE
   --vfe
 )
 
+# Generate additional outputs
+iar_elftool(${PROJECT_NAME})

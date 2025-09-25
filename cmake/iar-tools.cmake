@@ -3,7 +3,7 @@ include_guard()
 # Set CMake for cross-compiling
 set(CMAKE_SYSTEM_NAME Generic)
 
-# Enable all CMake configuration types
+# Enable MinSizeRel
 set(CMAKE_CONFIGURATION_TYPES Debug Release RelWithDebInfo MinSizeRel)
 
 # Enable IAR C-STAT Static Analysis
@@ -15,7 +15,7 @@ if(ENABLE_ICSTAT)
 endif()
 
 # Facilitate adding C-SPY tests driven by CTest
-macro(cspysim TARGET)
+macro(iar_cspysim TARGET)
   find_program(CSPYBAT
     NAMES CSpyBat CSpyBat.exe
     HINTS /opt/iar/cxarm /opt/iarsystems/bxarm
@@ -55,3 +55,17 @@ macro(cspysim TARGET)
   # SUCCESS is the expected output from acutest
   set_property(TEST ${TARGET} PROPERTY PASS_REGULAR_EXPRESSION SUCCESS)
 endmacro()
+
+# Generate additional outputs
+function(iar_elftool tgt)
+  add_custom_command(TARGET ${tgt} POST_BUILD
+    COMMAND ${CMAKE_IAR_ELFTOOL} --silent --strip --ihex $<TARGET_FILE:${tgt}> $<CONFIG>/$<TARGET_PROPERTY:${tgt},NAME>.hex
+    COMMAND ${CMAKE_IAR_ELFTOOL} --silent --strip --srec $<TARGET_FILE:${tgt}> $<CONFIG>/$<TARGET_PROPERTY:${tgt},NAME>.srec
+    COMMAND ${CMAKE_IAR_ELFTOOL} --silent --strip --bin $<TARGET_FILE:${tgt}> $<CONFIG>/$<TARGET_PROPERTY:${tgt},NAME>.bin
+)
+endfunction()
+
+# Touch the cachedVariables from CMakePresets
+set(TOOLKIT_DIR ${TOOLKIT_DIR})
+set(SELECTED_TOOL ${SELECTED_TOOL})
+
