@@ -1,20 +1,23 @@
-enable_testing()
-
 add_library(util)
 
 # Tests
+add_executable(hello_test)
 add_executable(bm_search_test)
 add_executable(linear_search_test)
-add_executable(hello main.c)
 
 # Add Acutest - Unit testing
 target_include_directories(util PUBLIC
   ../acutest/include
 )
 
+# Sources: library
 target_sources(util PRIVATE
   bm_search.c
   linear_search.c
+)
+# Sources: unit tests
+target_sources(hello_test PRIVATE
+  hello_test.c
 )
 target_sources(bm_search_test PRIVATE
   bm_search_test.c
@@ -23,37 +26,24 @@ target_sources(linear_search_test PRIVATE
   linear_search_test.c
 )
 
+# Properties: library
 set_target_properties(
   util
   PROPERTIES
     COMPILE_OPTIONS "--cpu=cortex-m4;--dlib_config=full;-e"
 )
-
+# Properties: unit testing
 set_target_properties(
   bm_search_test
   linear_search_test
-  hello
+  hello_test
   PROPERTIES
     COMPILE_OPTIONS "--cpu=cortex-m4;--dlib_config=full;-e"
     LINK_LIBRARIES util
     LINK_OPTIONS "--cpu=cortex-m4;--semihosting;--redirect=_Printf=_PrintfFullNoMb"
 )
 
-macro(cspybat TARGET)
-  add_test(
-    NAME ${TARGET}_ctest
-    COMMAND /opt/iar/cxarm/common/bin/CSpyBat
-            /opt/iar/cxarm/arm/bin/libarmproc.so
-            /opt/iar/cxarm/arm/bin/libarmsim2.so
-            --plugin=/opt/iar/cxarm/arm/bin/libarmLibsupportUniversal.so
-            --debug_file=$<TARGET_FILE:${TARGET}>
-            --silent
-            --backend
-              --cpu=cortex-m4
-              --semihosting )
-  set_property(TEST ${TARGET}_ctest PROPERTY PASS_REGULAR_EXPRESSION SUCCESS)
-endmacro()
-
-cspybat(hello)
-cspybat(bm_search_test)
-cspybat(linear_search_test)
+# Register unit tests
+cspysim(hello_test)
+cspysim(bm_search_test)
+cspysim(linear_search_test)
