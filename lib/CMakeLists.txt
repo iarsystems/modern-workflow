@@ -44,6 +44,6 @@ set_target_properties(
 )
 
 # Register unit tests
-cspysim(hello_test)
-cspysim(bm_search_test)
-cspysim(linear_search_test)
+iar_cspysim(hello_test)
+iar_cspysim(bm_search_test)
+iar_cspysim(linear_search_test)
