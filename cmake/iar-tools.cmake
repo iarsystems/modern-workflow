@@ -16,17 +16,42 @@ endif()
 
 # Facilitate adding C-SPY tests driven by CTest
 macro(cspysim TARGET)
+  find_program(CSPYBAT
+    NAMES CSpyBat CSpyBat.exe
+    HINTS /opt/iar/cxarm /opt/iarsystems/bxarm
+    PATH_SUFFIXES common/bin
+    REQUIRED
+  )
+  cmake_path(GET CSPYBAT PARENT_PATH COMMON_DIR)
+
+  find_library(LIBPROC
+    NAMES libarmproc.so libarmPROC.so
+    HINTS /opt/iar/cxarm /opt/iarsystems/bxarm
+    PATH_SUFFIXES arm/bin
+    REQUIRED
+  )
+  find_library(LIBSIM
+    NAMES libarmsim2.so libarmSIM2.so
+    HINTS /opt/iar/cxarm /opt/iarsystems/bxarm
+    PATH_SUFFIXES arm/bin
+    REQUIRED
+  )
+  find_library(LIBSUPPORT
+    NAMES libarmLibsupportUniversal.so
+    HINTS /opt/iar/cxarm /opt/iarsystems/bxarm
+    PATH_SUFFIXES arm/bin
+    REQUIRED
+  )
+
   add_test(
     NAME ${TARGET}
-    COMMAND /opt/iar/cxarm/common/bin/CSpyBat
-            /opt/iar/cxarm/arm/bin/libarmproc.so
-            /opt/iar/cxarm/arm/bin/libarmsim2.so
-            --plugin=/opt/iar/cxarm/arm/bin/libarmLibsupportUniversal.so
-            --debug_file=$<TARGET_FILE:${TARGET}>
-            --silent
-            --backend
-              --cpu=cortex-m4
-              --semihosting )
+    COMMAND ${CSPYBAT} ${LIBPROC} ${LIBSIM}
+      --plugin=${LIBSUPPORT}
+      --debug_file=$<TARGET_FILE:${TARGET}>
+      --silent
+      --backend
+        --cpu=cortex-m4
+        --semihosting )
   # SUCCESS is the expected output from acutest
   set_property(TEST ${TARGET} PROPERTY PASS_REGULAR_EXPRESSION SUCCESS)
 endmacro()
