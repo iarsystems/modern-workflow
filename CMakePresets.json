@@ -1,37 +1,9 @@
 {
-    "version": 6,
-    "cmakeMinimumRequired": {
-        "major": 4,
-        "minor": 1,
-        "patch": 0
-    },
+    "version": 10,
     "configurePresets": [
         {
-            "name": "ewarm-default",
+            "name": "common",
             "hidden": true,
-            "condition": {
-                "type": "equals",
-                "lhs": "IAR_TOOLCHAIN_PATH",
-                "rhs": ""
-            },
-            "environment": {
-                "IAR_TOOLCHAIN_PATH": "C:/iar/ewarm"
-            }
-        },
-        {
-            "name": "ewarm-windows",
-            "inherits": "ewarm-default",
-            "description": "Build with EWARM (Windows)",
-            "condition": {
-                "type": "equals",
-                "lhs": "${hostSystemName}",
-                "rhs": "Windows"
-            },
-            "environment": {
-                "CC":  "$env{IAR_TOOLCHAIN_PATH}/arm/bin/iccarm.exe",
-                "CXX": "$env{IAR_TOOLCHAIN_PATH}/arm/bin/iccarm.exe",
-                "ASM": "$env{IAR_TOOLCHAIN_PATH}/arm/bin/iasmarm.exe"
-            },
             "cacheVariables": {
                 "CMAKE_EXPORT_COMPILE_COMMANDS":true
             },
@@ -39,8 +11,10 @@
             "binaryDir": "${sourceDir}/build"
         },
         {
-            "name": "cxarm-linux",
-            "description": "Build with CXARM (Linux)",
+            "name": "cxarm",
+            "displayName": "Configure for CXARM",
+            "description": "Build with CXARM",
+            "inherits": "common",
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
@@ -52,82 +26,96 @@
                 "ASM": "/opt/iar/cxarm/arm/bin/iasmarm"
             },
             "cacheVariables": {
-                "CMAKE_EXPORT_COMPILE_COMMANDS":true
+                "SELECTED_TOOL": "cxarm",
+                "TOOLKIT_DIR": "/opt/iar/cxarm/arm"
+            }
+        },
+        {
+            "name": "bxarm",
+            "displayName": "Configure for BXARM",
+            "description": "Build with BXARM",
+            "inherits": "common",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
             },
-            "generator": "Ninja Multi-Config",
-            "binaryDir": "${sourceDir}/build"
+            "environment": {
+                "CC":  "/opt/iarsystems/bxarm/arm/bin/iccarm",
+                "CXX": "/opt/iarsystems/bxarm/arm/bin/iccarm",
+                "ASM": "/opt/iarsystems/bxarm/arm/bin/iasmarm"
+            },
+            "cacheVariables": {
+                "SELECTED_TOOL": "bxarm",
+                "TOOLKIT_DIR": "/opt/iarsystems/bxarm/arm"
+            }
         }
     ],
     "buildPresets": [
         {
-            "name": "debug-win",
+            "name": "debug",
             "displayName": "Build Debug",
             "description": "Disable optimizations - include debug information.",
-            "configurePreset": "ewarm-windows",
+            "configurePreset": "cxarm",
             "configuration": "Debug"
         },
         {
-            "name": "release-win",
+            "name": "release",
             "displayName": "Build Release",
             "description": "Optimize for speed - exclude debug information.",
-            "configurePreset": "ewarm-windows",
+            "configurePreset": "cxarm",
             "configuration": "Release"
         },
         {
-            "name": "relwithdebinfo-win",
+            "name": "relwithdebinfo",
             "displayName": "Build RelWithDebInfo",
             "description": "Optimize for speed - include debug information.",
-            "configurePreset": "ewarm-windows",
+            "configurePreset": "cxarm",
             "configuration": "RelWithDebInfo"
         },
         {
-            "name": "minsizerel-win",
+            "name": "minsizerel",
             "displayName": "Build MinSizeRel",
             "description": "Optimize for smallest binary size - exclude debug information.",
-            "configurePreset": "ewarm-windows",
-            "configuration": "MinSizeRel"
-        },
-        {
-            "name": "debug-lnx",
-            "displayName": "Build Debug",
-            "description": "Disable optimizations - include debug information.",
-            "configurePreset": "cxarm-linux",
-            "configuration": "Debug"
-        },
-        {
-            "name": "release-lnx",
-            "displayName": "Build Release",
-            "description": "Optimize for speed - exclude debug information.",
-            "configurePreset": "cxarm-linux",
-            "configuration": "Release"
-        },
-        {
-            "name": "relwithdebinfo-lnx",
-            "displayName": "Build RelWithDebInfo",
-            "description": "Optimize for speed - include debug information.",
-            "configurePreset": "cxarm-linux",
-            "configuration": "RelWithDebInfo"
-        },
-        {
-            "name": "minsizerel-lnx",
-            "displayName": "Build MinSizeRel",
-            "description": "Optimize for smallest binary size - exclude debug information.",
-            "configurePreset": "cxarm-linux",
+            "configurePreset": "cxarm",
             "configuration": "MinSizeRel"
         }
     ],
     "testPresets": [
-        {
-            "name": "test-win",
-            "displayName": "Test (Windows)",
-            "description": "Test the build",
-            "configurePreset": "ewarm-windows"
+        {  
+            "name": "test-common",
+            "hidden": true,
+            "configurePreset": "cxarm",
+            "output": {"outputOnFailure": true},
+            "execution": {"noTestsAction": "error", "stopOnFailure": true}
         },
         {
-            "name": "test-lnx",
-            "displayName": "Test (Linux)",
-            "description": "Test the build",
-            "configurePreset": "cxarm-linux"
+            "name": "debug",
+            "displayName": "Test with CXARM",
+            "description": "Test the build using CXARM",
+            "inherits": "test-common",
+            "configuration": "Debug"
+        },
+        {
+            "name": "release",
+            "displayName": "Test with CXARM",
+            "description": "Test the build using CXARM",
+            "inherits": "test-common",
+            "configuration": "Release"
+        },
+        {
+            "name": "relwithdebinfo",
+            "displayName": "Test with CXARM",
+            "description": "Test the build using CXARM",
+            "inherits": "test-common",
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "minsizerel",
+            "displayName": "Test with CXARM",
+            "description": "Test the build using CXARM",
+            "inherits": "test-common",
+            "configuration": "MinSizeRel"
         }
     ]
 }
