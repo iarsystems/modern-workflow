@@ -24,7 +24,10 @@
             "statusBarVisibility": "visible"
         },
         "buildTarget": {
-            "statusBarVisibility": "visible"
+            "statusBarVisibility": "hidden"
+        },
+        "testPreset": {
+            "statusBarVisibility": "hidden"
         },
         "ctest": {
             "projectStatusVisibility": "visible",

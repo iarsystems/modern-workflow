@@ -12,8 +12,8 @@
         },
         {
             "name": "cxarm",
-            "displayName": "Configure for CXARM",
-            "description": "Build with CXARM",
+            "displayName": "CXARM",
+            "description": "Configure project for CXARM",
             "inherits": "common",
             "condition": {
                 "type": "equals",
@@ -32,8 +32,8 @@
         },
         {
             "name": "bxarm",
-            "displayName": "Configure for BXARM",
-            "description": "Build with BXARM",
+            "displayName": "BXARM",
+            "description": "Configure project for BXARM",
             "inherits": "common",
             "condition": {
                 "type": "equals",
@@ -54,67 +54,30 @@
     "buildPresets": [
         {
             "name": "debug",
-            "displayName": "Build Debug",
+            "displayName": "Debug",
             "description": "Disable optimizations - include debug information.",
             "configurePreset": "cxarm",
             "configuration": "Debug"
         },
         {
             "name": "release",
-            "displayName": "Build Release",
+            "displayName": "Release",
             "description": "Optimize for speed - exclude debug information.",
             "configurePreset": "cxarm",
             "configuration": "Release"
         },
         {
             "name": "relwithdebinfo",
-            "displayName": "Build RelWithDebInfo",
+            "displayName": "RelWithDebInfo",
             "description": "Optimize for speed - include debug information.",
             "configurePreset": "cxarm",
             "configuration": "RelWithDebInfo"
         },
         {
             "name": "minsizerel",
-            "displayName": "Build MinSizeRel",
+            "displayName": "MinSizeRel",
             "description": "Optimize for smallest binary size - exclude debug information.",
             "configurePreset": "cxarm",
-            "configuration": "MinSizeRel"
-        }
-    ],
-    "testPresets": [
-        {  
-            "name": "test-common",
-            "hidden": true,
-            "configurePreset": "cxarm",
-            "output": {"outputOnFailure": true},
-            "execution": {"noTestsAction": "error", "stopOnFailure": true}
-        },
-        {
-            "name": "debug",
-            "displayName": "Test with CXARM",
-            "description": "Test the build using CXARM",
-            "inherits": "test-common",
-            "configuration": "Debug"
-        },
-        {
-            "name": "release",
-            "displayName": "Test with CXARM",
-            "description": "Test the build using CXARM",
-            "inherits": "test-common",
-            "configuration": "Release"
-        },
-        {
-            "name": "relwithdebinfo",
-            "displayName": "Test with CXARM",
-            "description": "Test the build using CXARM",
-            "inherits": "test-common",
-            "configuration": "RelWithDebInfo"
-        },
-        {
-            "name": "minsizerel",
-            "displayName": "Test with CXARM",
-            "description": "Test the build using CXARM",
-            "inherits": "test-common",
             "configuration": "MinSizeRel"
         }
     ]
