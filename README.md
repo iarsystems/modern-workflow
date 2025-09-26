@@ -11,7 +11,7 @@ The target is set to work with the IAR STM32F429II-ACA board although can be mod
 >An extraneous regression that affects `ASM` settings persistence for when __reconfiguring__ a project was introduced in CMake 4.1.0. A fix is planned for CMake [4.1.2](https://gitlab.kitware.com/cmake/cmake/-/merge_requests/11160).
 
 ## IAR public container images
-This project example makes use of one of the [IAR public container images](https://github.com/iarsystems/containers) for Arm with ST device support.
+This project example makes use of one of the [IAR public container images](https://github.com/iarsystems/containers) for Arm with device support.
 
 ## Getting started
 Perform the following:
@@ -34,7 +34,7 @@ Perform the following:
 <img width="454" height="110" alt="image" src="https://github.com/user-attachments/assets/7435a085-77a1-42bc-8bab-94a70495a987" />
 
 >[!TIP]
->The toaster nofitication only appears for a short while. If you miss it, you can use the pallete (CTRL+SHIFT+P) and use, for example, "Dev Containers: reopen in container".
+>The toaster nofitication only appears for a short while. If you miss it, you can use the palette (CTRL+SHIFT+P) and use, for example, "Dev Containers: reopen in container".
 
 5. Install the recommended extensions from IAR and Microsoft.
 
