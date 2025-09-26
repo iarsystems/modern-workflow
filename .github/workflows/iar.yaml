@@ -1,4 +1,4 @@
-name: CXARM CI
+name: IAR CI
 
 on:
   workflow_dispatch:
@@ -22,13 +22,21 @@ jobs:
       run: iccarm --version
     - name: Checkout project
       uses: actions/checkout@v4
-    - name: CMake - Configure
-      run: cmake --preset cxarm-linux
-    - name: CMake - Build
-      run: cmake --build build --config Debug --verbose
+      with:
+        submodules: true
+    - name: CMake - Configure preset
+      run: cmake --preset cxarm
+    - name: CMake - Build Debug preset
+      run: cmake --build --preset debug --verbose
+    - name: CMake - Build Release preset
+      run: cmake --build --preset release --verbose
+    - name: CMake - Build Release With Debug Info preset
+      run: cmake --build --preset relwithdebinfo --verbose
+    - name: CMake - Build Minimum Size Release preset
+      run: cmake --build --preset minsizerel --verbose
 
-  verify:
-    name: Verify
+  static-analysis:
+    name: Static Analysis
     needs: build
     runs-on: ubuntu-24.04
     container:
@@ -37,39 +45,79 @@ jobs:
     steps:      
     - name: Checkout project
       uses: actions/checkout@v4
-    - name: CMake - Configure        
-      run: cmake --preset cxarm-linux   
-    - name: IAR C-STAT, Static Analysis
-      working-directory: EWARM
+      with:
+        submodules: true
+    - name: CMake - Configure enabling IAR C-STAT
+      run: cmake --preset cxarm -DENABLE_ICSTAT=ON
+    - name: CMake - perform Static Code Analysis with IAR C-STAT
+      run: cmake --build --preset debug
+
+  unit-testing:
+    name: Unit Testing
+    needs: build
+    runs-on: ubuntu-24.04
+    container:
+      image: ghcr.io/iarsystems/arm:9.70.1-st
+    timeout-minutes: 5
+    steps:
+    - name: Checkout project
+      uses: actions/checkout@v4
+      with:
+        submodules: true
+    - name: CMake - Configure preset
+      run: cmake --preset cxarm
+    - name: CMake - Build all targets
       run: |
-        apt-get update
-        apt-get -y install xmlstarlet
-        xmlstarlet ed --inplace -u '//cmakePath' -v '/usr/bin/cmake' light-effects-cmake.ewp
-        xmlstarlet ed --inplace -u '//cmakePresetName' -v 'cxarm-linux' light-effects-cmake.ewp
-        xmlstarlet ed --inplace -u '//cmakeOverrideToolEnvs' -v 'false' light-effects-cmake.ewp
-        iarbuild light-effects-cmake.ewp -cstat_analyze Debug -log all -parallel 4
+        cmake --build --preset debug
+        cmake --build --preset release
+        cmake --build --preset relwithdebinfo
+        cmake --build --preset minsizerel
+    - name: CTest - Unit testing Debug configuration
+      run: ctest --test-dir build -C Debug
+    - name: CTest - Unit testing Release configuration
+      run: ctest --test-dir build -C Release
+    - name: CTest - Unit testing Release With Debug Info configuration
+      run: ctest --test-dir build -C RelWithDebInfo
+    - name: CTest - Unit testing Minimal Size With Debug Info configuration
+      run: ctest --test-dir build -C MinSizeRel
 
   deploy:
     name: Deploy
-    needs: verify
+    needs: [ static-analysis, unit-testing ]
     runs-on: ubuntu-24.04
     container:
       image: ghcr.io/iarsystems/arm:9.70.1-st
     steps:      
     - name: Checkout project
       uses: actions/checkout@v4
-    - name: CMake - Configure
-      run: cmake --preset cxarm-linux
-    - name: CMake - Build
-      run: cmake --build build --config Release --verbose
-    - name: Convert ELF to Intel Extended
-      run: ielftool --ihex build/Release/light-effects.elf build/Release/light-effects.hex
-    - name: Upload release artifacts
+      with:
+        submodules: true
+    - name: CMake - Configure preset
+      run: cmake --preset cxarm
+    - name: CMake - Build Debug preset
+      run: cmake --build --preset debug
+    - name: CMake - Build Release preset
+      run: cmake --build --preset release
+    - name: CMake - Build Release With Debug Info preset
+      run: cmake --build --preset relwithdebinfo
+    - name: CMake - Build Minimum Size Release preset
+      run: cmake --build --preset minsizerel
+    - name: Upload verified artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: project-release
+        name: verified-artifacts
         path: |
+          build/Debug/light-effects.elf
+          build/Debug/light-effects.hex
+          build/Debug/light-effects.map
           build/Release/light-effects.elf
           build/Release/light-effects.hex
+          build/Release/light-effects.map
+          build/RelWithDebInfo/light-effects.elf
+          build/RelWithDebInfo/light-effects.hex
+          build/RelWithDebInfo/light-effects.map
+          build/MinSizeRel/light-effects.elf
+          build/MinSizeRel/light-effects.hex
+          build/MinSizeRel/light-effects.map
         if-no-files-found: error
 
