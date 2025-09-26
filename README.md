@@ -74,9 +74,3 @@ Dev Containers simplify bootstrapping the whole development environment with the
 - [VS Code - Remote Development Extension Pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack)
 - [VS Code - IAR Extension Pack](https://marketplace.visualstudio.com/items?itemName=iarsystems.iar-extension-pack)
 
-
-
-
-
-
-
