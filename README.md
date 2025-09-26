@@ -64,6 +64,21 @@ export IAR_LMS_BEARER_TOKEN=<the-evaluation-token-you-received>
 
 It should now be possible to build the project using the IAR Build Tools.
 
+## Building from the command line
+Amongst the many ways of building a CMake project with IAR, it is possible to use CMake Presets. The project comes with a preset for `cxarm` which generates its default build scripts. Below you will find some simple sequence of commands:
+```bash
+# Configure the project (Debug, Release, RelWithDebInfo, MinSizeRel)
+$ cmake --preset cxarm
+
+# Build the Debug configuration
+$ cmake --build --preset debug
+
+# Run unit tests using the previous build
+$ ctest --test-dir build --preset debug
+```
+>[!TIP]
+>You can append `--verbose` when building the project or running `ctest` for additional details on what CMake is executing behind the scenes.
+
 ## Summary
 Dev Containers simplify bootstrapping the whole development environment with the IAR Build Tools in Visual Studio Code.
 
@@ -73,4 +88,5 @@ Dev Containers simplify bootstrapping the whole development environment with the
 - [Dev Container specification](https://containers.dev/)
 - [VS Code - Remote Development Extension Pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack)
 - [VS Code - IAR Extension Pack](https://marketplace.visualstudio.com/items?itemName=iarsystems.iar-extension-pack)
+
 
