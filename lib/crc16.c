@@ -31,4 +31,3 @@ uint16_t crc16(const char * data)
   }
   return crc;
 }
-
