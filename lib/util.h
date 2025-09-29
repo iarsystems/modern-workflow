@@ -18,5 +18,6 @@ typedef struct data_s {
 
 const uint8_t* bm_search(const uint8_t *text, const uint8_t *pattern);
 uint32_t linear_search(uint32_t x, const data_t *data);
-
-#endif /* __TEST_CONFIG__ */
+int32_t crc32(const char * data);
+int16_t crc16(int16_t crc, int8_t * data, size_t bytes);
+#endif /* __UTIL_H__ */
