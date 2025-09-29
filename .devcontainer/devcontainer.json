@@ -34,5 +34,7 @@
   // Exposes the host's USB bus to the dev container.
   "runArgs": [
     "--device=/dev/bus/usb"
-  ]
+  ],
+  // Initialize git submodules
+  "postStartCommand": "git submodule update --init --recursive"
 }
