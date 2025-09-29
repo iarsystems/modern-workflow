@@ -78,7 +78,7 @@ jobs:
       run: ctest --test-dir build -C Release
     - name: CTest - Unit testing Release With Debug Info configuration
       run: ctest --test-dir build -C RelWithDebInfo
-    - name: CTest - Unit testing Minimal Size With Debug Info configuration
+    - name: CTest - Unit testing Minimal Size configuration
       run: ctest --test-dir build -C MinSizeRel
 
   deploy:
