@@ -36,5 +36,6 @@
     "--device=/dev/bus/usb"
   ],
   // Initialize git submodules
-  "postCreateCommand": "git submodule update --init --recursive"
+  "postCreateCommand": "git submodule update --init --recursive",
+  "postStartCommand": "git submodule update --init --recursive"
 }
