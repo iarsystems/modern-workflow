@@ -7,9 +7,6 @@ A Dev Container provides a pre-configured development environment. It allows you
 
 The target is set to work with the IAR STM32F429II-ACA board although can be modified for working with other boards.
 
->[!CAUTION]
->An extraneous regression that affects `ASM` settings persistence for when __reconfiguring__ a project was introduced in CMake 4.1.0. A fix is planned for CMake [4.1.2](https://gitlab.kitware.com/cmake/cmake/-/merge_requests/11160).
-
 ## IAR public container images
 This project example makes use of one of the [IAR public container images](https://github.com/iarsystems/containers) for Arm with device support.
 
@@ -88,5 +85,6 @@ Dev Containers simplify bootstrapping the whole development environment with the
 - [Dev Container specification](https://containers.dev/)
 - [VS Code - Remote Development Extension Pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack)
 - [VS Code - IAR Extension Pack](https://marketplace.visualstudio.com/items?itemName=iarsystems.iar-extension-pack)
+
 
 
