@@ -26,7 +26,8 @@
   // The License Management System is updated
   //  for the Dev Container at build-time.
   "features": {
-    "./lmsc": {}
+    "./lmsc": {},
+    "./jlink": {}
   },
   // uncomment to use `ubuntu` as user instead of `root.`
   // More information: https://containers.dev/implementors/json_reference/#remoteUser
