@@ -85,6 +85,8 @@ Dev Containers simplify bootstrapping the whole development environment with the
 - [Dev Container specification](https://containers.dev/)
 - [VS Code - Remote Development Extension Pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack)
 - [VS Code - IAR Extension Pack](https://marketplace.visualstudio.com/items?itemName=iarsystems.iar-extension-pack)
+- [WSL - Connect USB devices](https://learn.microsoft.com/en-us/windows/wsl/connect-usb)
+
 
 
 
