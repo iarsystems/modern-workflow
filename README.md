@@ -5,7 +5,7 @@ This repository contains a project example that can be developed from within a D
 
 A Dev Container provides a pre-configured development environment. It allows you to work in a development environment that has been specifically configured for your repository. It will have all the tools, scripts and configurations you need to work on that project. Everyone who works on that repository will have the same environment, reducing the ocurrence of environment-related problems. Each repository can have settings that will give contributors a ready-to-use, fit-for-purpose environment, and the environment on your local machine will be unchanged.
 
-The target is set to work with the IAR STM32F429II-ACA board although can be modified for working with other boards.
+Out of the box, the demonstration project is set to work with the IAR STM32F429II-ACA board while the debugger lauches with the IAR C-SPY Simulator, or IAR I-jet, or the SEGGER J-Link probes. Also, the project sources can be modified for working with other boards.
 
 ## IAR public container images
 This project example makes use of one of the [IAR public container images](https://github.com/iarsystems/containers) for Arm with device support.
@@ -33,9 +33,9 @@ Perform the following:
 >[!TIP]
 >The toaster nofitication only appears for a short while. If you miss it, you can use the palette (CTRL+SHIFT+P) and use, for example, "Dev Containers: reopen in container".
 
-5. Install the recommended extensions from IAR and Microsoft.
+5. Once all project's submodules were cloned, clicking [CMake extension](https://github.com/microsoft/vscode-cmake-tools/blob/HEAD/docs/README.md)'s "Run CTest" will automatically build the project with the IAR Build Tools prior to running unit tests using the IAR C-SPY Simulator.
 
-6. The CMake Tools extension will offer to select a preset for configuring the project. A drop-down selection box will offer __cxarm-linux__ as an option for building with the IAR Build Tools.
+6. The Dev Container also installs automatically the [IAR Debug extension](https://github.com/iarsystems/iar-vsc-debug/blob/master/docs/README.md) with support for the IAR C-SPY Simulator, IAR I-jet, and the SEGGER J-Link probes. Press <kbd>F5</kbd> to run with the Simulator or select the desired launcher from the Debug menu.
 
 ## Authenticate to the IAR Cloud License service
 The IAR Build Tools require an user license to operate and, for that reason, the project will not build at first. Choose one of the following methods:
@@ -86,6 +86,7 @@ Dev Containers simplify bootstrapping the whole development environment with the
 - [VS Code - Remote Development Extension Pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack)
 - [VS Code - IAR Extension Pack](https://marketplace.visualstudio.com/items?itemName=iarsystems.iar-extension-pack)
 - [WSL - Connect USB devices](https://learn.microsoft.com/en-us/windows/wsl/connect-usb)
+
 
 
 
