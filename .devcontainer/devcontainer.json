@@ -19,7 +19,6 @@
         "ms-vscode.cpptools-extension-pack",
         "ms-vscode-remote.vscode-remote-extensionpack",
         "github.vscode-github-actions"
-        
       ]
     }
   },
@@ -29,12 +28,13 @@
     "./lmsc": {},
     "./jlink": {}
   },
-  // uncomment to use `ubuntu` as user instead of `root.`
+  // Comment "remoteUser" and rebuild the container to become `root`.
   // More information: https://containers.dev/implementors/json_reference/#remoteUser
-  // "remoteUser": "ubuntu",
+  "remoteUser": "ubuntu",
   // Exposes the host's USB bus to the dev container.
   "runArgs": [
-    "--device=/dev/bus/usb"
+    "--device=/dev/bus/usb",
+    "--privileged"
   ],
   // Initialize git submodules
   "postCreateCommand": "git submodule update --init --recursive",
