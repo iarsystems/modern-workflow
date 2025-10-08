@@ -81,3 +81,8 @@ target_link_options(${PROJECT_NAME} PRIVATE
 
 # Generate additional outputs
 iar_elftool(${PROJECT_NAME})
+
+# Touch `build/DartConfiguration.tcl` (not used)
+# for supressing CMake Tools warning about 
+# missing file during during CTest
+file(TOUCH ${CMAKE_BINARY_DIR}/DartConfiguration.tcl)
