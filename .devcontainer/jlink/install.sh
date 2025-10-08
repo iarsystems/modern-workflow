@@ -5,7 +5,7 @@ apt update
 apt install -y \
     apt-transport-https \
     ca-certificates \
-    libusb-1.0 \
+    libusb-1.0-0 \
     libx11-xcb1 \
     libxcb-icccm4 \
     libxcb-image0 \
