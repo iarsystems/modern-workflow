@@ -3,7 +3,7 @@
     // will launch the IAR C-SPY Debugger instead of trying to launch
     // the executable on the host
     "cmake.buildBeforeRun": true,
-    "cmake.configureOnOpen": true,
+    "cmake.configureOnOpen": false,
     "cmake.useCMakePresets": "always",
     "cmake.enabledOutputParsers": [
         "cmake",
