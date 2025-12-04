@@ -16,7 +16,7 @@ jobs:
     name: Build
     runs-on: ubuntu-24.04
     container:
-      image: ghcr.io/iarsystems/arm:9.70.1-st
+      image: ghcr.io/iarsystems/arm:9.70.2-st
     steps:
     - name: Invoke the IAR C/C++ Compiler for Arm
       run: iccarm --version
@@ -40,7 +40,7 @@ jobs:
     needs: build
     runs-on: ubuntu-24.04
     container:
-      image: ghcr.io/iarsystems/arm:9.70.1-st
+      image: ghcr.io/iarsystems/arm:9.70.2-st
     timeout-minutes: 5
     steps:      
     - name: Checkout project
@@ -57,7 +57,7 @@ jobs:
     needs: build
     runs-on: ubuntu-24.04
     container:
-      image: ghcr.io/iarsystems/arm:9.70.1-st
+      image: ghcr.io/iarsystems/arm:9.70.2-st
     timeout-minutes: 5
     steps:
     - name: Checkout project
@@ -86,7 +86,7 @@ jobs:
     needs: [ static-analysis, unit-testing ]
     runs-on: ubuntu-24.04
     container:
-      image: ghcr.io/iarsystems/arm:9.70.1-st
+      image: ghcr.io/iarsystems/arm:9.70.2-st
     steps:      
     - name: Checkout project
       uses: actions/checkout@v4
