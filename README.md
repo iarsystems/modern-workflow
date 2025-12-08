@@ -40,16 +40,14 @@ Perform the following:
 ## Authenticate to the IAR Cloud License service
 The IAR Build Tools require an user license to operate and, for that reason, the project will not build at first. Choose one of the following methods:
 ### Via Entra ID
-This method uses the [Microsoft Entra ID](https://learn.microsoft.com/en-us/entra/fundamentals/whatis) technology and it requires your user mail account associated to this service.
-1. Choose Terminal/Run task.../IAR Cloud login.
+This method uses the [Microsoft Entra ID](https://learn.microsoft.com/en-us/entra/fundamentals/whatis) authentication technology and it requires your user mail account associated to the service.
+1. Open the Command Palette (Ctrl+Shift+P), and execute the `IAR Cloud Licensing: Login` command.
 
-2. Select the authentication code and copy it to the clipboard (CTRL+C). 
+2. The extension will take you to the IAR authentication site, continue with the login process via the webpage. 
 
-3. CTRL+Click on the provided link, enter with the provided code, click "Connect" and then "Continue".
+3. Once the Login is completed, you can close the webpage.
 
-<img width="392" height="299" alt="image" src="https://github.com/user-attachments/assets/0ff718b8-4c43-4ad7-a91d-e6d5cb1dd63d" />
-
-4. Go back to Visual Studio Code and build the project using the IAR Build Tools.
+4. Return to VS Code and note that its status bar was updated with a new entry with your name's initials, which provides further functionality, such as for logging out, displaying the named user's token and the extension's version. 
 
 ### Via Evaluation Token
 Alternatively, it is possible to use a time-limited Evaluation Token provided by IAR.
