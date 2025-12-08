@@ -13,17 +13,6 @@
                 "command": "bash -c 'rm -frv build'",
             },
             "group": "build"
-        },
-        {
-            "label": "IAR Cloud login",
-            "type": "shell",
-            "windows": {
-                "command": "bash -c 'iarlogin login --use-device-code'",
-            },
-            "linux": {
-                "command": "bash -c 'iarlogin login --use-device-code'",
-            },
-            "group": "build"
-        },
+        }
     ],
 }

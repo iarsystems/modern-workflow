@@ -3,11 +3,13 @@
   //   Update the image for use with other variants
   //   More information: https://github.com/iarsystems/containers/wiki/Arm-image-variants
   "image": "ghcr.io/iarsystems/arm:9.70.2-st",
+
   // Set the Container's environment variables
   "containerEnv": {
     "HOME": "/home/ubuntu",
     "IAR_LMS_BEARER_TOKEN": "${localEnv:IAR_LMS_BEARER_TOKEN}"
   },
+
   // Customiszations installs the IAR Extensions for VS Code
   // More information: https://iar.com/vscode
   "customizations": {
@@ -15,27 +17,31 @@
       "extensions": [
         //"iarsystems.iar-extension-pack",
         "iarsystems.iar-debug",
+        "iarsystems.iar-login",
         "ms-vscode.cpptools-extension-pack",
         "ms-vscode-remote.vscode-remote-extensionpack",
         "github.vscode-github-actions"
       ]
     }
   },
+
   // The License Management System is updated
   //  for the Dev Container at build-time.
   "features": {
     "./lmsc": {},
     "./jlink": {}
   },
+
   // Comment "remoteUser" and rebuild the container to become `root`.
   // More information: https://containers.dev/implementors/json_reference/#remoteUser
   "remoteUser": "ubuntu",
+
   // Exposes the host's USB bus to the dev container.
   "runArgs": [
-    "--device=/dev/bus/usb",
-    "--privileged"
+    "--device=/dev/bus/usb"
   ],
+  "privileged": true,
+
   // Initialize git submodules
-  "postCreateCommand": "git submodule update --init --recursive",
-  "postStartCommand": "git submodule update --init --recursive"
+  "postCreateCommand": "git submodule update --init --recursive"
 }
