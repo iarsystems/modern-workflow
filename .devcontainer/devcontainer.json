@@ -2,7 +2,7 @@
   // IAR Build Tools for Arm (w/ ST device support)
   //   Update the image for use with other variants
   //   More information: https://github.com/iarsystems/containers/wiki/Arm-image-variants
-  "image": "ghcr.io/iarsystems/arm:9.70.2-st",
+  "image": "ghcr.io/iarsystems/arm:9.70.4-st",
 
   // Set the Container's environment variables
   "containerEnv": {
