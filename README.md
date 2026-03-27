@@ -68,8 +68,8 @@ $ cmake --preset cxarm
 # Build the Debug configuration
 $ cmake --build --preset debug
 
-# Run unit tests using the previous build
-$ ctest --test-dir build --preset debug
+# Run unit tests using the previous build configuration
+$ ctest --test-dir build -C debug
 ```
 >[!TIP]
 >You can append `--verbose` when building the project or running `ctest` for additional details on what CMake is executing behind the scenes.
