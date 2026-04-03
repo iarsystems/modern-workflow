@@ -55,13 +55,17 @@ macro(iar_cspysim TARGET)
   set_property(TEST ${TARGET} PROPERTY PASS_REGULAR_EXPRESSION SUCCESS)
 endmacro()
 
-# Generate additional outputs
+# Use IAR ELF Tool to generate outputs in additional formats
 function(iar_elftool tgt)
-  add_custom_command(TARGET ${tgt} POST_BUILD
-    COMMAND ${CMAKE_IAR_ELFTOOL} --silent --strip --ihex $<TARGET_FILE:${tgt}> $<CONFIG>/$<TARGET_PROPERTY:${tgt},NAME>.hex
-    COMMAND ${CMAKE_IAR_ELFTOOL} --silent --strip --srec $<TARGET_FILE:${tgt}> $<CONFIG>/$<TARGET_PROPERTY:${tgt},NAME>.srec
-    COMMAND ${CMAKE_IAR_ELFTOOL} --silent --strip --bin $<TARGET_FILE:${tgt}> $<CONFIG>/$<TARGET_PROPERTY:${tgt},NAME>.bin
-)
+  add_custom_target(ielftool_hex ALL
+    DEPENDS ${tgt}
+    COMMAND ${CMAKE_IAR_ELFTOOL}
+      --silent
+      --strip
+      --ihex
+      $<TARGET_FILE:${tgt}>
+      $<TARGET_FILE_DIR:${tgt}>/${tgt}.hex
+  )
 endfunction()
 
 # Touch the cachedVariables from CMakePresets
