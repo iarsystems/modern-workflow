@@ -19,7 +19,7 @@ Perform the following:
 <img width="349" height="124" alt="Code_uC77i5JnhG" src="https://github.com/user-attachments/assets/00be3f75-48d2-45e3-baf1-74dd9fc540bb" />
 <img width="603" height="116" alt="Code_dbNBZZXXQ3" src="https://github.com/user-attachments/assets/014f5ace-220b-497d-a7e2-518deaa3c22d" />
 
-3. [Clone](https://code.visualstudio.com/docs/sourcecontrol/overview) and open this repository.
+3. Clone (see [how](https://code.visualstudio.com/docs/sourcecontrol/overview)) and open this repository.
 
 <img width="360" height="297" alt="image" src="https://github.com/user-attachments/assets/efa87139-54d0-4978-beb4-e8dce4316734" />
 
