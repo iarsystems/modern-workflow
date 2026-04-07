@@ -9,12 +9,15 @@ project(light-effects)
 enable_language(ASM)
 enable_testing()
 
+# Enable IAR Compiler extensions (-e)
+set(CMAKE_C_EXTENSIONS ON)
+
 # Add the executable target
 add_executable(${PROJECT_NAME})
 
 # Set the target's compiler options
 target_compile_options(${PROJECT_NAME} PRIVATE
-  $<$<COMPILE_LANGUAGE:C,CXX>:--dlib_config full --no_wrap_diagnostics -e>
+  $<$<COMPILE_LANGUAGE:C,CXX>:--dlib_config=full --no_wrap_diagnostics>
   $<$<COMPILE_LANGUAGE:ASM>:-s+>
   --cpu=cortex-m4
   --fpu=vfpv4_sp
