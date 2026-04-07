@@ -40,7 +40,7 @@ target_sources(linear_search_test PRIVATE
 set_target_properties(
   util
   PROPERTIES
-    COMPILE_OPTIONS "--cpu=cortex-m4;--dlib_config=full;-e;--no_wrap_diagnostics"
+    COMPILE_OPTIONS "--cpu=cortex-m4;--dlib_config=full;--no_wrap_diagnostics"
 )
 # Properties: unit testing
 set_target_properties(
@@ -50,7 +50,7 @@ set_target_properties(
   linear_search_test
   hello_test
   PROPERTIES
-    COMPILE_OPTIONS "--cpu=cortex-m4;--dlib_config=full;-e;--no_wrap_diagnostics"
+    COMPILE_OPTIONS "--cpu=cortex-m4;--dlib_config=full;--no_wrap_diagnostics"
     LINK_LIBRARIES util
     LINK_OPTIONS "--cpu=cortex-m4;--semihosting;--redirect=_Printf=_PrintfFullNoMb"
 )
