@@ -10,7 +10,7 @@
     "IAR_LMS_BEARER_TOKEN": "${localEnv:IAR_LMS_BEARER_TOKEN}"
   },
 
-  // Customiszations installs the IAR Extensions for VS Code
+  // Customizations installs the IAR Extensions for VS Code
   // More information: https://iar.com/vscode
   "customizations": {
     "vscode": {
