@@ -60,19 +60,39 @@ export IAR_LMS_BEARER_TOKEN=<the-evaluation-token-you-received>
 It should now be possible to build the project using the IAR Build Tools.
 
 ## Building from the command line
-Amongst the many ways of building a CMake project with IAR, it is possible to use CMake Presets. The project comes with a preset for `cxarm` which generates its default build scripts. Below you will find some simple sequence of commands:
-```bash
-# Configure the project (Debug, Release, RelWithDebInfo, MinSizeRel)
-$ cmake --preset cxarm
+Amongst the many ways of building a CMake project with IAR, it is possible to use CMake Presets, described in the CMakePresets.json file. The project comes with a reusable custom preset (`ninja-multi`) which enables the Ninja Multi-Config generator for the following build configurations:
 
-# Build the Debug configuration
-$ cmake --build --preset debug
+| Configuration             | Objective                                                     | Debug Information included ?
+| -                         | -                                                             | -
+| Coverage                  | Disable optimizations (`-On`)                                 | Yes
+| Debug                     | Low Level optimizations (`-Ol`)                               | Yes
+| Medium                    | Medium level optimizations (`-Om`)                            | No
+| Release                   | High level optimizations (`-Oh`)                              | No
+| RelWithDebInfo            | High level optimizations (`-Oh`)                              | Yes
+| MinSizeRel                | Optimize for smallest binary size (`-Ohz`)                    | No
+| HighSpeed                 | Optimize for high speed (`-Ohs`)                              | No
+| MaxSpeed                  | Optimize for maximum speed (`-Ohs --no-size-constraints`)     | No
+
+Below you will find an example of a possible sequence of commands, using bash:
+```bash
+# If not already set, configure the IAR Compiler as the platform's default
+export CC=/opt/iar/cxarm/arm/bin/iccarm
+export CXX=${CC}
+export ASM=/opt/iar/cxarm/arm/bin/iasmarm
+
+# Configure the project using Ninja Multi-Config
+$ cmake --preset ninja-multi
+
+# Build the Coverage configuration
+# (Coverage, Debug, Medium, Release, RelWithDebInfo, MinSizeRel, HighSpeed, MaxSpeed)
+$ cmake --build --preset coverage [--verbose] [--clean-first]
 
 # Run unit tests using the previous build configuration
-$ ctest --test-dir build -C debug
+$ ctest --test-dir build -C coverage [--verbose]
 ```
+
 >[!TIP]
->You can append `--verbose` when building the project or running `ctest` for additional details on what CMake is executing behind the scenes.
+>The option `--verbose` can be used when building the project or when running its unit tests.
 
 ## Summary
 Dev Containers simplify bootstrapping the whole development environment with the IAR Build Tools in Visual Studio Code.

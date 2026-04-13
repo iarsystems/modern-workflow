@@ -1,4 +1,12 @@
 build/
+.cmake_build/
+Coverage/
+Debug/
+Release/
+DebWithRelInfo/
+MinSizeRel/
+HighSpeed/
+MaxSpeed/
 settings/
 CMakeUserPresets.json
 .vscode/*.db

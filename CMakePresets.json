@@ -2,52 +2,90 @@
     "version": 10,
     "configurePresets": [
         {
-            "name": "common",
+            "name": "common-base",
             "hidden": true,
+            "binaryDir": "${sourceDir}/build",
             "cacheVariables": {
-                "CMAKE_EXPORT_COMPILE_COMMANDS":true
+                "CMAKE_SYSTEM_NAME": {
+                    "type": "STRING",
+                    "value": "Generic"
+                },
+                "CMAKE_STATIC_LIBRARY_PREFIX": {
+                    "type": "STRING",
+                    "value": ""
+                },
+                "CMAKE_C_FLAGS_COVERAGE": {
+                    "type": "STRING",
+                    "value": "-On -r"
+                },
+                "CMAKE_CXX_FLAGS_COVERAGE": {
+                    "type": "STRING",
+                    "value": "-On -r"
+                },
+                "CMAKE_C_FLAGS_MEDIUM": {
+                    "type": "STRING",
+                    "value": "-Om -DNDEBUG"
+                },
+                "CMAKE_CXX_FLAGS_MEDIUM": {
+                    "type": "STRING",
+                    "value": "-Om -DNDEBUG"
+                },
+                "CMAKE_C_FLAGS_HIGHSPEED": {
+                    "type": "STRING",
+                    "value": "-Ohs -DNDEBUG"
+                },
+                "CMAKE_CXX_FLAGS_HIGHSPEED": {
+                    "type": "STRING",
+                    "value": "-Ohs -DNDEBUG"
+                },
+                "CMAKE_C_FLAGS_MAXSPEED": {
+                    "type": "STRING",
+                    "value": "-Ohs --no_size_constraints -DNDEBUG"
+                },
+                "CMAKE_CXX_FLAGS_MAXSPEED": {
+                    "type": "STRING",
+                    "value": "-Ohs --no_size_constraints -DNDEBUG"
+                },
+                "IAR_RT_LLIO_ARM": {
+                    "type": "STRING",
+                    "value": "--semihosting"
+                },
+                "IAR_RT_LLIO_RISCV": {
+                    "type": "STRING",
+                    "value": "--semihosting"
+                },
+                "IAR_RT_LLIO_RH850": {
+                    "type": "STRING",
+                    "value": "--debug_lib"
+                },
+                "IAR_RT_LLIO_RL78": {
+                    "type": "STRING",
+                    "value": "--debug_lib"
+                },
+                "IAR_RT_LLIO_RX": {
+                    "type": "STRING",
+                    "value": "--debug_lib"
+                }
             },
-            "generator": "Ninja Multi-Config",
-            "binaryDir": "${sourceDir}/build"
-        },
-        {
-            "name": "cxarm",
-            "displayName": "CXARM",
-            "description": "Configure project for CXARM",
-            "inherits": "common",
-            "condition": {
-                "type": "equals",
-                "lhs": "${hostSystemName}",
-                "rhs": "Linux"
-            },
-            "environment": {
-                "CC":  "/opt/iar/cxarm/arm/bin/iccarm",
-                "CXX": "/opt/iar/cxarm/arm/bin/iccarm",
-                "ASM": "/opt/iar/cxarm/arm/bin/iasmarm"
-            },
-            "cacheVariables": {
-                "SELECTED_TOOL": "cxarm",
-                "TOOLKIT_DIR": "/opt/iar/cxarm/arm"
+            "warnings": {
+                "unusedCli": false
             }
         },
         {
-            "name": "bxarm",
-            "displayName": "BXARM",
-            "description": "Configure project for BXARM",
-            "inherits": "common",
-            "condition": {
-                "type": "equals",
-                "lhs": "${hostSystemName}",
-                "rhs": "Linux"
-            },
-            "environment": {
-                "CC":  "/opt/iarsystems/bxarm/arm/bin/iccarm",
-                "CXX": "/opt/iarsystems/bxarm/arm/bin/iccarm",
-                "ASM": "/opt/iarsystems/bxarm/arm/bin/iasmarm"
-            },
+            "name": "ninja-multi",
+            "inherits": "common-base",
+            "displayName": "Ninja Multi-Config",
+            "description": "Configure a CMake project using the Ninja Multi-Config Generator.",
+            "generator": "Ninja Multi-Config",
             "cacheVariables": {
-                "SELECTED_TOOL": "bxarm",
-                "TOOLKIT_DIR": "/opt/iarsystems/bxarm/arm"
+                "CMAKE_CONFIGURATION_TYPES": {
+                    "type": "STRING",
+                    "value": "Coverage;Debug;Release;RelWithDebInfo;MinSizeRel;Medium;HighSpeed;MaxSpeed"
+                },
+                "CMAKE_PRESET_NAME": {
+                    "type": "STRING",
+                    "value": "ninja-multi"
+                }
             }
         }
     ],
@@ -55,30 +93,58 @@
         {
             "name": "debug",
             "displayName": "Debug",
-            "description": "Disable optimizations - include debug information.",
-            "configurePreset": "cxarm",
+            "description": "Low level optimizations - include debug information.",
+            "configurePreset": "ninja-multi",
             "configuration": "Debug"
+        },
+        {
+            "name": "coverage",
+            "displayName": "Coverage",
+            "description": "Disable optimizations - include debug information.",
+            "configurePreset": "ninja-multi",
+            "configuration": "Coverage"
         },
         {
             "name": "release",
             "displayName": "Release",
             "description": "Optimize for speed - exclude debug information.",
-            "configurePreset": "cxarm",
+            "configurePreset": "ninja-multi",
             "configuration": "Release"
         },
         {
             "name": "relwithdebinfo",
             "displayName": "RelWithDebInfo",
             "description": "Optimize for speed - include debug information.",
-            "configurePreset": "cxarm",
+            "configurePreset": "ninja-multi",
             "configuration": "RelWithDebInfo"
         },
         {
             "name": "minsizerel",
             "displayName": "MinSizeRel",
             "description": "Optimize for smallest binary size - exclude debug information.",
-            "configurePreset": "cxarm",
+            "configurePreset": "ninja-multi",
             "configuration": "MinSizeRel"
+        },
+        {
+            "name": "medium",
+            "displayName": "Medium",
+            "description": "Optimize for medium execution speed - exclude debug information.",
+            "configurePreset": "ninja-multi",
+            "configuration": "Medium"
+        },
+        {
+            "name": "highspeed",
+            "displayName": "HighSpeed",
+            "description": "Optimize for high execution speed - exclude debug information.",
+            "configurePreset": "ninja-multi",
+            "configuration": "HighSpeed"
+        },
+        {
+            "name": "maxspeed",
+            "displayName": "MaxSpeed",
+            "description": "Optimize for maximum execution speed - exclude debug information.",
+            "configurePreset": "ninja-multi",
+            "configuration": "MaxSpeed"
         }
     ]
 }

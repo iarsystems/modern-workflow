@@ -21,19 +21,27 @@ jobs:
     - name: Invoke the IAR C/C++ Compiler for Arm
       run: iccarm --version
     - name: Checkout project
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         submodules: true
     - name: CMake - Configure preset
-      run: cmake --preset cxarm
+      run: cmake --preset ninja-multi
+    - name: CMake - Build Coverage preset
+      run: cmake --build --preset coverage --verbose
     - name: CMake - Build Debug preset
       run: cmake --build --preset debug --verbose
+    - name: CMake - Build Medium preset
+      run: cmake --build --preset medium --verbose
     - name: CMake - Build Release preset
       run: cmake --build --preset release --verbose
     - name: CMake - Build Release With Debug Info preset
       run: cmake --build --preset relwithdebinfo --verbose
     - name: CMake - Build Minimum Size Release preset
       run: cmake --build --preset minsizerel --verbose
+    - name: CMake - Build High Speed preset
+      run: cmake --build --preset highspeed --verbose
+    - name: CMake - Build Max Speed preset
+      run: cmake --build --preset maxspeed --verbose
 
   static-analysis:
     name: Static Analysis
@@ -44,11 +52,11 @@ jobs:
     timeout-minutes: 5
     steps:      
     - name: Checkout project
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         submodules: true
     - name: CMake - Configure enabling IAR C-STAT
-      run: cmake --preset cxarm -DENABLE_ICSTAT=ON
+      run: cmake --preset ninja-multi -DENABLE_ICSTAT=ON
     - name: CMake - perform Static Code Analysis with IAR C-STAT
       run: cmake --build --preset debug
 
@@ -61,25 +69,24 @@ jobs:
     timeout-minutes: 5
     steps:
     - name: Checkout project
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         submodules: true
     - name: CMake - Configure preset
-      run: cmake --preset cxarm
+      run: cmake --preset ninja-multi
     - name: CMake - Build all targets
       run: |
+        cmake --build --preset coverage
         cmake --build --preset debug
+        cmake --build --preset medium
         cmake --build --preset release
         cmake --build --preset relwithdebinfo
         cmake --build --preset minsizerel
-    - name: CTest - Unit testing Debug configuration
-      run: ctest --test-dir build -C Debug
-    - name: CTest - Unit testing Release configuration
-      run: ctest --test-dir build -C Release
-    - name: CTest - Unit testing Release With Debug Info configuration
-      run: ctest --test-dir build -C RelWithDebInfo
-    - name: CTest - Unit testing Minimal Size configuration
-      run: ctest --test-dir build -C MinSizeRel
+        cmake --build --preset highspeed
+        cmake --build --preset maxspeed
+
+    - name: CTest - Unit testing (Coverage configuration)
+      run: ctest --test-dir build -C Coverage
 
   deploy:
     name: Deploy
@@ -89,35 +96,50 @@ jobs:
       image: ghcr.io/iarsystems/arm:9.70.4-st
     steps:      
     - name: Checkout project
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         submodules: true
     - name: CMake - Configure preset
-      run: cmake --preset cxarm
+      run: cmake --preset ninja-multi
     - name: CMake - Build Debug preset
       run: cmake --build --preset debug
+    - name: CMake - Build Medium preset
+      run: cmake --build --preset medium
     - name: CMake - Build Release preset
       run: cmake --build --preset release
     - name: CMake - Build Release With Debug Info preset
       run: cmake --build --preset relwithdebinfo
     - name: CMake - Build Minimum Size Release preset
       run: cmake --build --preset minsizerel
+    - name: CMake - Build High Speed preset
+      run: cmake --build --preset highspeed 
+    - name: CMake - Build Max Speed preset
+      run: cmake --build --preset maxspeed 
     - name: Upload verified artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: verified-artifacts
         path: |
-          build/Debug/light-effects.elf
-          build/Debug/light-effects.hex
-          build/Debug/light-effects.map
-          build/Release/light-effects.elf
-          build/Release/light-effects.hex
-          build/Release/light-effects.map
-          build/RelWithDebInfo/light-effects.elf
-          build/RelWithDebInfo/light-effects.hex
-          build/RelWithDebInfo/light-effects.map
-          build/MinSizeRel/light-effects.elf
-          build/MinSizeRel/light-effects.hex
-          build/MinSizeRel/light-effects.map
+          build/src/Debug/light-effects.elf
+          build/src/Debug/light-effects.hex
+          build/src/Debug/light-effects.map
+          build/src/Medium/light-effects.elf
+          build/src/Medium/light-effects.hex
+          build/src/Medium/light-effects.map
+          build/src/Release/light-effects.elf
+          build/src/Release/light-effects.hex
+          build/src/Release/light-effects.map
+          build/src/RelWithDebInfo/light-effects.elf
+          build/src/RelWithDebInfo/light-effects.hex
+          build/src/RelWithDebInfo/light-effects.map
+          build/src/MinSizeRel/light-effects.elf
+          build/src/MinSizeRel/light-effects.hex
+          build/src/MinSizeRel/light-effects.map
+          build/src/HighSpeed/light-effects.elf
+          build/src/HighSpeed/light-effects.hex
+          build/src/HighSpeed/light-effects.map
+          build/src/MaxSpeed/light-effects.elf
+          build/src/MaxSpeed/light-effects.hex
+          build/src/MaxSpeed/light-effects.map
         if-no-files-found: error
 
