@@ -1,20 +1,26 @@
 include_guard()
 
-# Set CMake for cross-compiling
-set(CMAKE_SYSTEM_NAME Generic)
-
-# Enable MinSizeRel
-set(CMAKE_CONFIGURATION_TYPES Debug Release RelWithDebInfo MinSizeRel)
-
-# Enable IAR C-STAT Static Analysis
-option(ENABLE_ICSTAT "Enable IAR C-STAT Static Analysis" OFF)
-if(ENABLE_ICSTAT)
-  set(CMAKE_C_ICSTAT "${CMAKE_IAR_CSTAT}")
-  set(CMAKE_CXX_ICSTAT "${CMAKE_IAR_CSTAT}")
-endif()
+# Function: Generate REGEX from a given integer up to 100%
+function(regex_range OUTVAR MIN)
+  #9[0-9].[0-9][0-9]%
+  if (MIN LESS 10)
+    set(result "[${MIN}-9].[0-9][0-9]")
+  elseif(MIN GREATER 9 AND MIN LESS 100)
+    string(SUBSTRING "${MIN}" 0 1 _digit10)
+    string(SUBSTRING "${MIN}" 1 1 _digit1)
+    math(EXPR _digit10plus1 "${_digit10}+1")
+    set(result "(${_digit10}[${_digit1}-9]|[${_digit10plus1}-9][0-9]).[0-9][0-9]")
+  elseif(MIN EQUAL 100)
+    set(result "100.00")
+  else()
+    message(FATAL_ERROR "regex_range(): minimal value should be an integer 0<MIN<100.")
+  endif()
+  set(${OUTVAR} "${result}" PARENT_SCOPE)
+endfunction()
 
 # Facilitate adding C-SPY tests driven by CTest
-macro(iar_cspysim TARGET)
+# usage: iar_cspysim(TargetName ExpectedCodeCoverage)
+macro(iar_cspysim TARGET CODECOVER)
   find_program(CSPYBAT
     NAMES CSpyBat CSpyBat.exe
     HINTS /opt/iar/cxarm /opt/iarsystems/bxarm
@@ -42,17 +48,42 @@ macro(iar_cspysim TARGET)
     REQUIRED
   )
 
+  ### Perform Unit testing using the IAR C-SPY Simulator
   add_test(
-    NAME ${TARGET}
+    NAME ${TARGET}-cspy-unit-testing
     COMMAND ${CSPYBAT} ${LIBPROC} ${LIBSIM}
       --plugin=${LIBSUPPORT}
       --debug_file=$<TARGET_FILE:${TARGET}>
+      --code_coverage_file=$<TARGET_FILE_DIR:${TARGET}>/${TARGET}-code-coverage.log
       --silent
       --backend
         --cpu=cortex-m4
-        --semihosting )
-  # SUCCESS is the expected output from acutest
-  set_property(TEST ${TARGET} PROPERTY PASS_REGULAR_EXPRESSION SUCCESS)
+        --semihosting
+  )
+  # PASS if the output of acutest emits "SUCCESS"
+  set_property(TEST ${TARGET}-cspy-unit-testing PROPERTY
+    PASS_REGULAR_EXPRESSION "SUCCESS"
+  )
+
+  ### Evaluate the IAR C-SPY Code Coverage report
+  add_test(
+    NAME ${TARGET}-cspy-code-coverage
+    COMMAND ${CMAKE_COMMAND} -E cat
+      $<TARGET_FILE_DIR:${TARGET}>/${TARGET}-code-coverage.log
+  )
+  # Get the target name without the "_test" suffix
+  string(REGEX REPLACE "_test" "" TARGET_WITHOUT_TEST_SUFFIX ${TARGET})
+  # SKIP unit tests for the module "hello_test"
+  set_property(TEST ${TARGET}-cspy-code-coverage PROPERTY
+    SKIP_REGULAR_EXPRESSION
+      "Module \"hello"
+  )
+  regex_range(CODECOVERPASS ${CODECOVER})
+  # PASS if the set-point for the module is >= CODECOVER)
+  set_property(TEST ${TARGET}-cspy-code-coverage PROPERTY
+    PASS_REGULAR_EXPRESSION
+      "Module \"${TARGET_WITHOUT_TEST_SUFFIX}\" coverage: ${CODECOVERPASS}%"
+  )
 endmacro()
 
 # Use IAR ELF Tool to generate outputs in additional formats
@@ -68,7 +99,10 @@ function(iar_elftool tgt)
   )
 endfunction()
 
-# Touch the cachedVariables from CMakePresets
-set(TOOLKIT_DIR ${TOOLKIT_DIR})
-set(SELECTED_TOOL ${SELECTED_TOOL})
+# Configure launcher
+set(IAR_DEBUG_FILE "${PROJECT_SOURCE_DIR}/.vscode/launch.json" CACHE FILEPATH "")
 
+# Touch `build/DartConfiguration.tcl` (not used)
+# for supressing CMake Tools warning about
+# missing file during CTest
+file(TOUCH ${CMAKE_BINARY_DIR}/DartConfiguration.tcl)
