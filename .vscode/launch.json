@@ -43,6 +43,7 @@
                 "--jet_power_from_probe=leave_on",
                 "--drv_interface=SWD",
                 "--jet_cpu_clock=168000000",
+                "--jet_standard_reset=2,10,10",
                 "--drv_catch_exceptions=0xff0"
             ],
             "download": {
