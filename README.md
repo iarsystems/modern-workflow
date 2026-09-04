@@ -1,5 +1,5 @@
 # Modern Development Workflow with IAR
-[![CXARM CI](https://github.com/iarsystems/modern-workflow/actions/workflows/iar.yaml/badge.svg)](https://github.com/iarsystems/modern-workflow/actions/workflows/iar.yaml)
+[![CI](https://github.com/iarsystems/modern-workflow/actions/workflows/ci.yaml/badge.svg)](https://github.com/iarsystems/modern-workflow/actions/workflows/ci.yaml)
 
 This repository contains a project example that can be developed from within a Dev Container using Visual Studio Code with its remote development extensions.
 
