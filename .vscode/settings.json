@@ -70,5 +70,6 @@
         "--limit-references=100",
         "--limit-results=100",
         "--log=verbose"
-    ]
+    ],
+    "python-envs.defaultEnvManager": "ms-python.python:system"
 }

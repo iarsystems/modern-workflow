@@ -7,7 +7,8 @@
   // Set the Container's environment variables
   "containerEnv": {
     "HOME": "/home/ubuntu",
-    "IAR_LMS_BEARER_TOKEN": "${localEnv:IAR_LMS_BEARER_TOKEN}"
+    "IAR_LMS_BEARER_TOKEN": "${localEnv:IAR_LMS_BEARER_TOKEN}",
+    "PIP_BREAK_SYSTEM_PACKAGES": "1"
   },
 
   // Customizations installs the IAR Extensions for VS Code
@@ -19,6 +20,7 @@
         "iarsystems.iar-debug",
         "iarsystems.iar-login",
         "llvm-vs-code-extensions.vscode-clangd",
+        "ms-python.python",
         "ms-vscode.cmake-tools",
         "usernamehw.errorlens",
         "github.vscode-github-actions"
@@ -26,11 +28,14 @@
     }
   },
 
-  // The License Management System is updated
-  //  for the Dev Container at build-time.
   "features": {
+    // Update the IAR License Management System at build-time
     "./lmsc": {},
-    "./jlink": {}
+    // Install the J-Link driver
+    "./jlink": {},
+    // Install Python
+    "ghcr.io/devcontainers/features/common-utils:2": {},
+    "./python": {}
   },
 
   // Comment "remoteUser" and rebuild the container to become `root`.
@@ -43,6 +48,6 @@
   ],
   "privileged": true,
 
-  // Initialize git submodules
-  "postCreateCommand": "git submodule update --init --recursive"
+  // Install cspy-mcp dependencies
+  "postCreateCommand": "pip install -r cspy-mcp/requirements.txt"
 }
