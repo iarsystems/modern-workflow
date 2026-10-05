@@ -8,6 +8,9 @@ MinSizeRel/
 HighSpeed/
 MaxSpeed/
 settings/
+
+*.dnx
+*.lock
 CMakeUserPresets.json
 .vscode/*.db
 .vscode/*.db-*

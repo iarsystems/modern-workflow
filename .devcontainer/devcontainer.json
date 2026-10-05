@@ -18,8 +18,9 @@
         //"iarsystems.iar-extension-pack",
         "iarsystems.iar-debug",
         "iarsystems.iar-login",
-        "ms-vscode.cpptools-extension-pack",
-        "ms-vscode-remote.vscode-remote-extensionpack",
+        "llvm-vs-code-extensions.vscode-clangd",
+        "ms-vscode.cmake-tools",
+        "usernamehw.errorlens",
         "github.vscode-github-actions"
       ]
     }
