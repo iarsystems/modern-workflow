@@ -48,6 +48,6 @@
   ],
   "privileged": true,
 
-  // Install cspy-mcp dependencies
-  "postCreateCommand": "pip install -r cspy-mcp/requirements.txt"
+  // Update submodules and install cspy-mcp dependencies
+  "postCreateCommand": "git submodule update --init --recursive && pip install -r cspy-mcp/requirements.txt"
 }
