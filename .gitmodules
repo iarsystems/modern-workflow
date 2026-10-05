@@ -18,3 +18,8 @@
 	url = https://github.com/mity/acutest.git
   branch = master
   shallow = true
+[submodule "cspy-mcp"]
+	path = cspy-mcp
+	url = https://github.com/iarsystems/cspy-mcp
+  branch = main
+  shallow = true

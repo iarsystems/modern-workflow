@@ -1,0 +1,14 @@
+// From: https://github.com/iarsystems/cspy-mcp
+{
+  "servers": {
+    "cspy-debugger": {
+      "type": "stdio",    // "stdio" or "streamable-http"
+      "command": "python",
+      "args": [
+        "-m", "mcp_thrift_server",
+        "--iar-path", "/opt/iar/cxarm"
+      ],
+      "cwd": "${workspaceFolder}/cspy-mcp"
+    }
+  }
+}
