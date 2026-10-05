@@ -58,5 +58,17 @@
         "workflowPreset": {
             "statusBarVisibility": "hidden"
         }        
-    }
+    },
+    "clangd.path": "/opt/iar/cxarm/common/bin/clangd",
+    //"clangd.path": "/opt/iar/ewarm/common/bin/clangd",
+    "clangd.arguments": [
+        "--compile-commands-dir=${workspaceFolder}/build",
+        "--completion-style=bundled",
+        "--enable-config",
+        "--header-insertion=never",
+        "--ignore-diags-in-system-headers",
+        "--limit-references=100",
+        "--limit-results=100",
+        "--log=verbose"
+    ]
 }

@@ -29,3 +29,17 @@ add_subdirectory(lib)
 
 # Add application's sources
 add_subdirectory(src)
+
+# Setup TOOLKIT_DIR
+cmake_path(GET CMAKE_CXX_COMPILER PARENT_PATH BIN_DIR)
+cmake_path(GET BIN_DIR PARENT_PATH TOOLKIT_DIR)
+# Generate an IAR-compatible compile database
+add_custom_target(clangd_compile_commands ALL
+  COMMAND ${TOOLKIT_DIR}/../common/bin/iarbuild${CMAKE_HOST_EXECUTABLE_SUFFIX}
+    -E clangd_compile_commands
+    --output $<TARGET_FILE_DIR:light-effects>/compile_commands.json
+    --build_dir ${CMAKE_CURRENT_BINARY_DIR}
+    --configuration $<CONFIG>
+    --parallel 4
+  COMMENT "Generating $<TARGET_FILE_DIR:light-effects>/compile_commands.json"
+)
