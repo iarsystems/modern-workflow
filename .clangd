@@ -1,4 +1,4 @@
-# Valid for iccarm-10.10.2
+# Valid for iccarm-10.10.2 (Linux)
 
 CompileFlags:
   Remove:
@@ -13,15 +13,13 @@ CompileFlags:
     - --dlib_config*
 
   Add:
-    - -nostdinc
     - -undef
+    - -nostdinc
     - -Wno-unaligned-access
     - -fiar-compiler
     - -ferror-limit=0
-    - -D__IAR_CLANGD__
-    - -isystem
-    #- /opt/iar/ewarmc/arm/inc/libcpp
-    - /opt/iar/cxarm/arm/inc/libcpp
+    - -funsigned-char
+    - -fiar-extensions
     - -isystem
     #- /opt/iar/ewarmc/arm/inc/c/aarch32
     - /opt/iar/cxarm/arm/inc/c/aarch32
@@ -32,6 +30,9 @@ CompileFlags:
     #- /opt/iar/ewarmc/arm/inc/c
     - /opt/iar/cxarm/arm/inc/c
     - --target=armv7m-none-eabi
+    - -D__thumb__=1
+    - -D__IAR_CLANGD__
+    - -D__CORE__=__ARM7M__
     - -D__CHAR_BITS__=8
     - -D__CHAR_BIT__=8
     - -D__CHAR_MAX__=0xff
@@ -324,14 +325,6 @@ CompileFlags:
     - -D__PRAGMA_PACK_ON__=1
     - -D__MULTIPLE_INHERITANCE__=1
     - -D__FOR_DEBUG__=
-    - -D_LIBCPP=1
-    - -D_LIBCPP_ABI_VERSION=2
-    - -D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS=1
-    - -D_LIBCPP_NO_ABI_TAG=
-    - -D_LIBCPP_REMOVE_TRANSITIVE_INCLUDES=
-    - -D_LIBCPP_HAS_NO_THREADS=1
-    - -D_LIBCPP_HAS_NO_OFF_T_FUNCTIONS=1
-    - -D_LIBCPP_HAS_NO_MONOTONIC_CLOCK=1
     - -D__ELF__=1
     - -D__AAPCS__=1
     - -D__ARM4TM__=4
@@ -368,14 +361,12 @@ CompileFlags:
     - -D__ARM_SIZE_MINIMAL_ENUM=1
     - -D__ARM_SIZE_WCHAR_T=4
     - -D__CODE_SIZE_LIMIT=0
-    - -D__CORE__=__ARM7M__
     - -D__CPU_MODE__=1
     - -D__GOT_INDIRECT=0
     - -D__IAR_PCS_TRUST=1
     - -D__ICCARM_INTRINSICS_VERSION__=2
     - -D__ICCARM__=1
     - -D__INTERWORKING__=1
-    - -D__thumb__=1
     - -D__PLAIN_INT_BITFIELD_IS_SIGNED__=0
     - -D__HAS_WEAK__=1
     - -D__HAS_PACKED__=1
@@ -410,7 +401,6 @@ CompileFlags:
     - -D__STDC_NO_THREADS__=1
     - -D__STDC_ISO_10646__=201103L
     - -D__STDC_HOSTED__=1
-    - -D__cplusplus=202002L
     - -D__WCHAR_T=1
     - -D__CHAR16_T_AND_CHAR32_T=1
     - -D__BOOL=1
@@ -418,6 +408,143 @@ CompileFlags:
     - -D__EDG_IA64_ABI=1
     - -D__EDG_IA64_ABI_VARIANT_CTORS_AND_DTORS_RETURN_THIS=1
     - -D__EDG_IA64_ABI_USE_INT_STATIC_INIT_GUARD=1
+    - -D__EDG_TYPE_TRAITS_ENABLED=1
+    - -D__VARIADIC_TEMPLATES=1
+    - -D__STDCPP_THREADS__=1
+    - -D__STDCPP_DEFAULT_NEW_ALIGNMENT__=8u
+    - -D__EDG_CONSTEXPR_ENABLED__=1
+    - -D__EDG__=1
+    - -D__EDG_VERSION__=606
+    - -D__EDG_SIZE_TYPE__=unsigned int
+    - -D__EDG_PTRDIFF_TYPE__=int
+    - -D__EDG_DELTA_TYPE=int
+    - -D__EDG_IA64_VTABLE_ENTRY_TYPE=int
+    - -D__EDG_VIRTUAL_FUNCTION_INDEX_TYPE=unsigned short
+    - -D__EDG_LOWER_VARIABLE_LENGTH_ARRAYS=1
+    - -D__EDG_IA64_ABI_USE_VARIANT_ARRAY_COOKIES=1
+    - -D__EDG_ABI_COMPATIBILITY_VERSION=9999
+    - -D__EDG_ABI_CHANGES_FOR_RTTI=1
+    - -D__EDG_ABI_CHANGES_FOR_ARRAY_NEW_AND_DELETE=1
+    - -D__EDG_ABI_CHANGES_FOR_PLACEMENT_DELETE=1
+    - -D__EDG_BSD=0
+    - -D__EDG_SYSV=0
+    - -D__EDG_ANSIC=1
+    - -D__EDG_CPP11_IL_EXTENSIONS_SUPPORTED=1
+    - -D__EDG_HOST_HAS_FLOAT16_TYPE=1
+    - -D__EDG_FLOAT80_ENABLING_POSSIBLE=0
+    - -D__EDG_FLOAT128_ENABLING_POSSIBLE=0
+    - -D__EDG_INT128_EXTENSIONS_ALLOWED=0
+    - -D_DLIB_CONFIG_FILE_HEADER_NAME="DLib_Config_Full.h"
+    - -D_DLIB_CONFIG_FILE_STRING="DLib_Config_Full.h"
+    - -D__VERSION__="IAR ANSI C/C++ Compiler V10.10.2.628/LNX for ARM"
+    - -D_VA_DEFINED=
+    - -D_VA_LIST=__builtin_va_list
+    - -D__ALIGNOF__=__alignof__
+    - -D__absolute=
+    - -D__arm=
+    - -D__assignment_by_bitwise_copy_allowed(Ty0)=1
+    - -D__c99_generic(...)=
+    - -D__code=
+    - -D__constrange(a,...)=
+    - -D__construction_by_bitwise_copy_allowed(Ty0)=1
+    - -D__data=
+    - -D__has_constructor=__is_trivially_constructible
+    - -D__has_destructor=__is_trivially_constructible
+    - -D__inited=
+    - -D__inline=
+    - -D__inline__=
+    - -D__interwork=
+    - -D__intrinsic=
+    - -D__monitor=
+    - -D__naked=
+    - -D__nested=
+    - -D__no_alloc=
+    - -D__no_alloc16=
+    - -D__no_init=
+    - -D__no_scratch=
+    - -D__noreturn=
+    - -D__nounwind=
+    - -D__out_of_image=
+    - -D__packed=
+    - -D__pcrel=
+    - -D__ramfunc=
+    - -D__ro_placement=
+    - -D__root=
+    - -D__section_begin(...)=((void *) 0)
+    - -D__section_end(...)=((void *) 0)
+    - -D__section_size(...)=0
+    - -D__segment_begin(...)=((void *) 0)
+    - -D__segment_end(...)=((void *) 0)
+    - -D__segment_size(...)=0
+    - -D__sfb(...)=((void *) 0)
+    - -D__sfe(...)=((void *) 0)
+    - -D__sfs(...)=0
+    - -D__spec_string=
+    - -D__stackless=
+    - -D__swi=
+    - -D__task=
+    - -D__thumb=
+    - -D__weak=
+    - -D__weak_test=
+    - -D__aeabi_memclr(Ty0, Ty1)=
+    - -D__aeabi_memcpy(Ty0, Ty1, Ty2)=
+    - -D__aeabi_memmove(Ty0, Ty1, Ty2)=
+    - -D__aeabi_memset(Ty0, Ty1, Ty2)=
+    - -D__aeabi_memclr4(Ty0, Ty1)=
+    - -D__aeabi_memcpy4(Ty0, Ty1, Ty2)=
+    - -D__aeabi_memmove4(Ty0, Ty1, Ty2)=
+    - -D__aeabi_memset4(Ty0, Ty1, Ty2)=
+    - -D__aeabi_memclr8(Ty0, Ty1)=
+    - -D__aeabi_memcpy8(Ty0, Ty1, Ty2)=
+    - -D__aeabi_memmove8(Ty0, Ty1, Ty2)=
+    - -D__aeabi_memset8(Ty0, Ty1, Ty2)=
+    - -D__get_SP()=0
+    - -D__get_PC()=0
+    - -D__iar_atomic_init(Ty0, Ty1)=
+    - -D__iar_atomic_init(Ty0, Ty1, Ty2)=
+    - -D__iar_atomic_load(Ty0, Ty1)=0
+    - -D__iar_atomic_exchange(Ty0, Ty1, Ty2)=0
+    - -D__iar_atomic_compare_exchange_strong(Ty0, Ty1, Ty2, Ty3, Ty4)=0
+    - -D__iar_atomic_compare_exchange_weak(Ty0, Ty1, Ty2, Ty3, Ty4)=0
+    - -D__iar_atomic_fetch_add(...)=0
+    - -D__iar_atomic_fetch_sub(...)=0
+    - -D__iar_atomic_fetch_or(...)=0
+    - -D__iar_atomic_fetch_xor(...)=0
+    - -D__iar_atomic_fetch_and(...)=0
+    - -D__iar_bits2fp32(Ty0)=0.0f
+    - -D__iar_bits2fp64(Ty0)=0.0
+    - -D__iar_cast_to(Ty0)=
+    - -D__iar_fp2bits32(Ty0)=0
+    - -D__iar_fp2bits64(Ty0)=0
+    - -D__iar_fpgethi64(Ty0)=0
+    - -D__iar_fpsethi64(Ty0, Ty1)=0.0
+    - -D__iar_generic(...)=
+    - -D___iar_is_complete(...)=__is_complete_type
+    - -D__no_alloc_str(...)=((unsigned long)0)
+    - -D__no_alloc_str16(...)=((unsigned short)0)
+    - -D__INTADDR__(...)=((unsigned int)0)
+    - -D__NAN__=0.0
+    - -D__INFINITY__=0.0
+    - -D__I__=__imag__
+    - -Dtypeof(Ty0)=__typeof__(Ty0)
+
+---
+If:
+  PathMatch: [.*\.(c|h)$]
+CompileFlags:
+  Add:
+    - -std=c17
+    - -xc
+
+---
+If:
+  PathMatch: [.*\.(cc|cxx|cpp|hpp)$]
+CompileFlags:
+  Add:
+    - -isystem
+    # - /opt/iar/ewarmc/arm/inc/libcpp
+    - /opt/iar/cxarm/arm/inc/libcpp
+    - -D__cplusplus=202002L
     - -D__cpp_aggregate_bases=201603L
     - -D__cpp_aggregate_paren_init=201902L
     - -D__cpp_aligned_new=201606L
@@ -474,129 +601,14 @@ CompileFlags:
     - -D__cpp_static_assert=201411L
     - -D__cpp_init_captures=201803L
     - -D__cpp_generic_lambdas=201707L
-    - -D__EDG_TYPE_TRAITS_ENABLED=1
-    - -D__VARIADIC_TEMPLATES=1
-    - -D__STDCPP_THREADS__=1
-    - -D__STDCPP_DEFAULT_NEW_ALIGNMENT__=8u
-    - -D__EDG_CONSTEXPR_ENABLED__=1
-    - -D__EDG__=1
-    - -D__EDG_VERSION__=606
-    - -D__EDG_SIZE_TYPE__=unsigned int
-    - -D__EDG_PTRDIFF_TYPE__=int
-    - -D__EDG_DELTA_TYPE=int
-    - -D__EDG_IA64_VTABLE_ENTRY_TYPE=int
-    - -D__EDG_VIRTUAL_FUNCTION_INDEX_TYPE=unsigned short
-    - -D__EDG_LOWER_VARIABLE_LENGTH_ARRAYS=1
-    - -D__EDG_IA64_ABI_USE_VARIANT_ARRAY_COOKIES=1
-    - -D__EDG_ABI_COMPATIBILITY_VERSION=9999
-    - -D__EDG_ABI_CHANGES_FOR_RTTI=1
-    - -D__EDG_ABI_CHANGES_FOR_ARRAY_NEW_AND_DELETE=1
-    - -D__EDG_ABI_CHANGES_FOR_PLACEMENT_DELETE=1
-    - -D__EDG_BSD=0
-    - -D__EDG_SYSV=0
-    - -D__EDG_ANSIC=1
-    - -D__EDG_CPP11_IL_EXTENSIONS_SUPPORTED=1
-    - -D__EDG_HOST_HAS_FLOAT16_TYPE=1
-    - -D__EDG_FLOAT80_ENABLING_POSSIBLE=0
-    - -D__EDG_FLOAT128_ENABLING_POSSIBLE=0
-    - -D__EDG_INT128_EXTENSIONS_ALLOWED=0
-    - -D_DLIB_CONFIG_FILE_HEADER_NAME="DLib_Config_Full.h"
-    - -D_DLIB_CONFIG_FILE_STRING="DLib_Config_Full.h"
-    - -D__VERSION__="IAR ANSI C/C++ Compiler V10.10.2.628/LNX for ARM"
-    - -D_VA_DEFINED=
-    - -D_VA_LIST=__builtin_va_list
-    - -D__ALIGNOF__=__alignof__
-    - -D__absolute=
-    - -D__arm=
-    - -D__assignment_by_bitwise_copy_allowed(Ty0)=1
-    - -D__c99_generic(...)=
-    - -D__code=
-    - -D__constrange(a,...)=
-    - -D__construction_by_bitwise_copy_allowed(Ty0)=1
-    - -D__data=
-    - -D__has_constructor=__is_trivially_constructible
-    - -D__has_destructor=__is_trivially_constructible
-    - -D__iar_generic(...)=
-    - -D___iar_is_complete(...)=__is_complete_type
-    - -D__inited=
-    - -D__inline=
-    - -D__inline__=
-    - -D__interwork=
-    - -D__intrinsic=
-    - -D__monitor=
-    - -D__naked=
-    - -D__nested=
-    - -D__no_alloc=
-    - -D__no_alloc16=
-    - -D__no_init=
-    - -D__no_scratch=
-    - -D__noreturn=
-    - -D__nounwind=
-    - -D__out_of_image=
-    - -D__packed=
-    - -D__pcrel=
-    - -D__ramfunc=
-    - -D__ro_placement=
-    - -D__root=
-    - -D__section_begin(...)=((void *) 0)
-    - -D__section_end(...)=((void *) 0)
-    - -D__section_size(...)=0
-    - -D__segment_begin(...)=((void *) 0)
-    - -D__segment_end(...)=((void *) 0)
-    - -D__segment_size(...)=0
-    - -D__sfb(...)=((void *) 0)
-    - -D__sfe(...)=((void *) 0)
-    - -D__sfs(...)=0
-    - -D__spec_string=
-    - -D__stackless=
-    - -D__swi=
-    - -D__task=
-    - -D__thumb=
-    - -D__weak=
-    - -D__weak_test=
-    - -D__aeabi_memclr(Ty0, Ty1)=
-    - -D__aeabi_memcpy(Ty0, Ty1, Ty2)=
-    - -D__aeabi_memmove(Ty0, Ty1, Ty2)=
-    - -D__aeabi_memset(Ty0, Ty1, Ty2)=
-    - -D__aeabi_memclr4(Ty0, Ty1)=
-    - -D__aeabi_memcpy4(Ty0, Ty1, Ty2)=
-    - -D__aeabi_memmove4(Ty0, Ty1, Ty2)=
-    - -D__aeabi_memset4(Ty0, Ty1, Ty2)=
-    - -D__aeabi_memclr8(Ty0, Ty1)=
-    - -D__aeabi_memcpy8(Ty0, Ty1, Ty2)=
-    - -D__aeabi_memmove8(Ty0, Ty1, Ty2)=
-    - -D__aeabi_memset8(Ty0, Ty1, Ty2)=
-    - -D__get_SP()=0
-    - -D__get_PC()=0
-    - -D__iar_fp2bits32(Ty0)=0
-    - -D__iar_fp2bits64(Ty0)=0
-    - -D__iar_fpgethi64(Ty0)=0
-    - -D__iar_fpsethi64(Ty0, Ty1)=0.0
-    - -D__iar_bits2fp32(Ty0)=0.0f
-    - -D__iar_bits2fp64(Ty0)=0.0
-    - -D__iar_atomic_init(Ty0, Ty1)=
-    - -D__iar_atomic_init(Ty0, Ty1, Ty2)=
-    - -D__iar_atomic_load(Ty0, Ty1)=0
-    - -D__iar_atomic_exchange(Ty0, Ty1, Ty2)=0
-    - -D__iar_atomic_compare_exchange_strong(Ty0, Ty1, Ty2, Ty3, Ty4)=0
-    - -D__iar_atomic_compare_exchange_weak(Ty0, Ty1, Ty2, Ty3, Ty4)=0
-    - -D__iar_atomic_fetch_add(...)=0
-    - -D__iar_atomic_fetch_sub(...)=0
-    - -D__iar_atomic_fetch_or(...)=0
-    - -D__iar_atomic_fetch_xor(...)=0
-    - -D__iar_atomic_fetch_and(...)=0
-    - -Dtypeof(Ty0)=__typeof__(Ty0)
-    - -D__no_alloc_str(...)=((unsigned long)0)
-    - -D__no_alloc_str16(...)=((unsigned short)0)
-    - -D__INTADDR__(...)=((unsigned int)0)
-    - -D__iar_cast_to(Ty0)=
-    - -D__NAN__=0.0
-    - -D__INFINITY__=0.0
-    - -D__I__=__imag__
+    - -D_LIBCPP=1
+    - -D_LIBCPP_ABI_VERSION=2
+    - -D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS=1
+    - -D_LIBCPP_NO_ABI_TAG=
+    - -D_LIBCPP_REMOVE_TRANSITIVE_INCLUDES=
+    - -D_LIBCPP_HAS_NO_THREADS=1
+    - -D_LIBCPP_HAS_NO_OFF_T_FUNCTIONS=1
+    - -D_LIBCPP_HAS_NO_MONOTONIC_CLOCK=1
     - -D_LIBCPP_HAS_NO_VENDOR_AVAILABILITY_ANNOTATIONS
-    - -funsigned-char
-    - -fiar-extensions
     - -std=c++20
-    - -x
-    - c++    
-
+    - -xc++
