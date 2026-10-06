@@ -15,3 +15,4 @@ CMakeUserPresets.json
 .vscode/*.db
 .vscode/*.db-*
 .vscode/iar-vsc.json
+.devcontainer/devcontainer-lock.json

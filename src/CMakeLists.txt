@@ -23,8 +23,10 @@ target_sources(light-effects PRIVATE
 
 # Set the target's compiler options
 target_compile_options(light-effects PRIVATE
-  $<$<COMPILE_LANGUAGE:C,CXX>:--cpu=cortex-m4 --dlib_config full --no_wrap_diagnostics>
-  $<$<COMPILE_LANGUAGE:ASM>:--cpu cortex-m4 -s+>
+$<$<COMPILE_LANGUAGE:ASM>:--cpu cortex-m4 -s+>
+$<$<COMPILE_LANGUAGE:C,CXX>:--cpu=cortex-m4 --no_wrap_diagnostics>
+$<$<COMPILE_LANGUAGE:C>:--dlib_config=full>
+$<$<COMPILE_LANGUAGE:CXX>:--libc++>
   --fpu=vfpv4_sp
 )
 
