@@ -5,7 +5,9 @@ This repository contains a project example that can be developed from within a D
 
 A Dev Container provides a pre-configured development environment. It allows you to work in a development environment that has been specifically configured for your repository. It will have all the tools, scripts and configurations you need to work on that project. Everyone who works on that repository will have the same environment, reducing the ocurrence of environment-related problems. Each repository can have settings that will give contributors a ready-to-use, fit-for-purpose environment, and the environment on your local machine will be unchanged.
 
-Out of the box, the demonstration project is set to work with the IAR STM32F429II-ACA board while the debugger lauches with the IAR C-SPY Simulator, or IAR I-jet, or the SEGGER J-Link probes. Also, the project sources can be modified for working with other boards.
+Out of the box, the demonstration project is set to work with the IAR STM32F429II-ACA board, while the debugger launches with the IAR C-SPY Simulator, or IAR I-jet, or the SEGGER J-Link probes. Additionally, it includes C-SPY MCP integration with Copilot AI.
+
+The project sources can be modified for working with other boards.
 
 ## IAR public container images
 This project example makes use of one of the [IAR public container images](https://github.com/iarsystems/containers) for Arm with device support.
