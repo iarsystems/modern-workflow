@@ -22,29 +22,50 @@ endfunction()
 # usage: iar_cspysim(TargetName ExpectedCodeCoverage)
 macro(iar_cspysim TARGET CODECOVER)
   find_program(CSPYBAT
-    NAMES CSpyBat CSpyBat.exe
-    HINTS /opt/iar/cxarm /opt/iarsystems/bxarm
+    NAMES CSpyBat
+          CSpyBat.exe
+    PATHS /opt/iar/cxarm
+          /opt/iar/ewarmc
+          /iar/cxarm-10.10.2
+          /iar/ewarmc-10.10.2
     PATH_SUFFIXES common/bin
-    REQUIRED
+    NO_DEFAULT_PATH
+  REQUIRED
   )
   cmake_path(GET CSPYBAT PARENT_PATH COMMON_DIR)
 
   find_library(LIBPROC
-    NAMES libarmproc.so libarmPROC.so
-    HINTS /opt/iar/cxarm /opt/iarsystems/bxarm
+    NAMES libarmproc.so
+          libarmPROC.so
+             armproc.dll
+    PATHS /opt/iar/cxarm
+          /opt/iar/ewarmc
+          /iar/cxarm-10.10.2
+          /iar/ewarmc-10.10.2
     PATH_SUFFIXES arm/bin
+    NO_DEFAULT_PATH
     REQUIRED
   )
   find_library(LIBSIM
-    NAMES libarmsim2.so libarmSIM2.so
-    HINTS /opt/iar/cxarm /opt/iarsystems/bxarm
+    NAMES libarmsim2.so
+          libarmSIM2.so
+             armsim2.dll
+    PATHS /opt/iar/cxarm
+          /opt/iar/ewarmc
+          /iar/cxarm-10.10.2
+          /iar/ewarmc-10.10.2
     PATH_SUFFIXES arm/bin
-    REQUIRED
+    NO_DEFAULT_PATH
   )
   find_library(LIBSUPPORT
     NAMES libarmLibsupportUniversal.so
-    HINTS /opt/iar/cxarm /opt/iarsystems/bxarm
+          armLibsupportUniversal.dll
+    PATHS /opt/iar/cxarm
+          /opt/iar/ewarmc
+          /iar/cxarm-10.10.2
+          /iar/ewarmc-10.10.2
     PATH_SUFFIXES arm/bin
+    NO_DEFAULT_PATH
     REQUIRED
   )
 
