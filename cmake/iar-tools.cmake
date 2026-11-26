@@ -1,5 +1,20 @@
 include_guard()
 
+enable_language(ASM)
+enable_testing()
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+# Enable IAR Compiler extensions (-e)
+get_property(languages GLOBAL PROPERTY ENABLED_LANGUAGES)
+if("C" IN_LIST languages)
+  set(CMAKE_C_EXTENSIONS ON)
+endif()
+if("CXX" IN_LIST languages)
+  set(CMAKE_CXX_EXTENSIONS ON)
+endif()
+
+
 # Function: Generate REGEX from a given integer up to 100%
 function(regex_range OUTVAR MIN)
   #9[0-9].[0-9][0-9]%
@@ -79,6 +94,7 @@ macro(iar_cspysim TARGET CODECOVER)
       --silent
       --backend
         --cpu=cortex-m4
+        --fpu=vfpv4_sp
         --semihosting
   )
   # PASS if the output of acutest emits "SUCCESS"
@@ -92,8 +108,8 @@ macro(iar_cspysim TARGET CODECOVER)
     COMMAND ${CMAKE_COMMAND} -E cat
       $<TARGET_FILE_DIR:${TARGET}>/${TARGET}-code-coverage.log
   )
-  # Get the target name without the "_test" suffix
-  string(REGEX REPLACE "_test" "" TARGET_WITHOUT_TEST_SUFFIX ${TARGET})
+  # Get the target name without the "_test" preffix
+  string(REGEX REPLACE "test_" "" TARGET_WITHOUT_TEST_PREFFIX ${TARGET})
   # SKIP unit tests for the module "hello_test"
   set_property(TEST ${TARGET}-cspy-code-coverage PROPERTY
     SKIP_REGULAR_EXPRESSION
@@ -103,7 +119,7 @@ macro(iar_cspysim TARGET CODECOVER)
   # PASS if the set-point for the module is >= CODECOVER)
   set_property(TEST ${TARGET}-cspy-code-coverage PROPERTY
     PASS_REGULAR_EXPRESSION
-      "Module \"${TARGET_WITHOUT_TEST_SUFFIX}\" coverage: ${CODECOVERPASS}%"
+      "Module \"${TARGET_WITHOUT_TEST_PREFFIX}\" coverage: ${CODECOVERPASS}%"
   )
 endmacro()
 
@@ -120,10 +136,56 @@ function(iar_elftool tgt)
   )
 endfunction()
 
-# Configure launcher
-set(IAR_DEBUG_FILE "${PROJECT_SOURCE_DIR}/.vscode/launch.json" CACHE FILEPATH "")
+# Enable IAR C-STAT Static Analysis for a specific target
+macro(enable_iar_cstat_analysis TARGET)
+  set(CMAKE_C_ICSTAT "${CMAKE_IAR_CSTAT}")
+  set(CMAKE_CXX_ICSTAT "${CMAKE_IAR_CSTAT}")
+  # Link-time analysis with C-STAT
+  get_target_property(target_type ${TARGET} TYPE)
+  if(target_type STREQUAL "EXECUTABLE")
+    add_custom_command(TARGET ${TARGET} POST_BUILD
+      COMMAND ${CMAKE_C_ICSTAT}
+        --db=cstat.db
+        --checks=cstat_sel_checks.txt
+        link_analyze -- ${CMAKE_LINKER} $<TARGET_OBJECTS:${TARGET}>
+      COMMAND_EXPAND_LISTS
+    )
+  endif()
+endmacro()
+
+# Make C-STAT alternatively usable from the command line
+if(ENABLE_ICSTAT)
+  set(CMAKE_C_ICSTAT "${CMAKE_IAR_CSTAT}")
+  set(CMAKE_CXX_ICSTAT "${CMAKE_IAR_CSTAT}")
+endif()
+
+# Configure C-SPY Debugger launcher in accordance with the environment (VSC vs EW)
+if (DEFINED ENV{VSCODE_CMAKE_TOOLS})
+  set(IAR_DEBUG_FILE "${PROJECT_SOURCE_DIR}/.vscode/launch.json" CACHE FILEPATH "")
+
+  # Clangd: Generate compiler internal macros
+  execute_process(
+    COMMAND ${CMAKE_C_COMPILER} . --silent --predef_macros=n "${PROJECT_SOURCE_DIR}/inc/c_macros.h"
+    COMMAND ${CMAKE_CXX_COMPILER} . --c++ --libc++ --silent --predef_macros=n "${PROJECT_SOURCE_DIR}/inc/cxx_macros.h"
+  )
+else()
+  if(WIN32)
+    set(IAR_DEBUG_FILE "${PROJECT_SOURCE_DIR}/.vscode/launch-ew-win.json" CACHE FILEPATH "")
+  else()
+    set(IAR_DEBUG_FILE "${PROJECT_SOURCE_DIR}/.vscode/launch-ew-lnx.json" CACHE FILEPATH "")
+  endif()
+endif()
 
 # Touch `build/DartConfiguration.tcl` (not used)
 # for supressing CMake Tools warning about
 # missing file during CTest
-file(TOUCH ${CMAKE_BINARY_DIR}/DartConfiguration.tcl)
+file(TOUCH ${PROJECT_BINARY_DIR}/DartConfiguration.tcl)
+
+# Touch IAR_CSTAT_CONFIG_FILE for silencing on the IDE, unless specified
+# "Failed to import C-STAT settings: no IAR_CSTAT_CONFIG_FILE variable found in cache"
+if(NOT DEFINED IAR_CSTAT_CONFIG_FILE)
+  file(TOUCH "${PROJECT_BINARY_DIR}/cstat_config.yaml")
+  set(IAR_CSTAT_CONFIG_FILE "${PROJECT_BINARY_DIR}/cstat_config.yaml" CACHE FILEPATH "")
+endif()
+
+

@@ -25,7 +25,7 @@ jobs:
       with:
         submodules: true
     - name: CMake - Configure preset
-      run: cmake --preset ninja-multi
+      run: cmake --preset iccarm
     - name: CMake - Build Coverage preset
       run: cmake --build --preset coverage --verbose
     - name: CMake - Build Debug preset
@@ -55,10 +55,10 @@ jobs:
       uses: actions/checkout@v7
       with:
         submodules: true
-    - name: CMake - Configure enabling IAR C-STAT
-      run: cmake --preset ninja-multi -DENABLE_ICSTAT=ON
-    - name: CMake - perform Static Code Analysis with IAR C-STAT
-      run: cmake --build --preset debug
+    - name: CMake - Perform SCA with IAR C-STAT
+      run: |
+        cmake --preset iccarm -DENABLE_ICSTAT=ON
+        cmake --build --preset debug
 
   unit-testing:
     name: Unit Testing
@@ -73,7 +73,7 @@ jobs:
       with:
         submodules: true
     - name: CMake - Configure preset
-      run: cmake --preset ninja-multi
+      run: cmake --preset iccarm
     - name: CMake - Build all targets
       run: |
         cmake --build --preset coverage
@@ -85,7 +85,7 @@ jobs:
         cmake --build --preset highspeed
         cmake --build --preset maxspeed
     - name: CTest - Unit testing (Coverage configuration)
-      run: ctest --test-dir build -C Coverage
+      run: ctest --test-dir build -C Coverage --output-on-failure
 
   deploy:
     name: Deploy
@@ -99,7 +99,7 @@ jobs:
       with:
         submodules: true
     - name: CMake - Configure preset
-      run: cmake --preset ninja-multi
+      run: cmake --preset iccarm
     - name: CMake - Build Debug preset
       run: cmake --build --preset debug
     - name: CMake - Build Medium preset
@@ -119,26 +119,26 @@ jobs:
       with:
         name: verified-artifacts
         path: |
-          build/src/Debug/light-effects.elf
-          build/src/Debug/light-effects.hex
-          build/src/Debug/light-effects.map
-          build/src/Medium/light-effects.elf
-          build/src/Medium/light-effects.hex
-          build/src/Medium/light-effects.map
-          build/src/Release/light-effects.elf
-          build/src/Release/light-effects.hex
-          build/src/Release/light-effects.map
-          build/src/RelWithDebInfo/light-effects.elf
-          build/src/RelWithDebInfo/light-effects.hex
-          build/src/RelWithDebInfo/light-effects.map
-          build/src/MinSizeRel/light-effects.elf
-          build/src/MinSizeRel/light-effects.hex
-          build/src/MinSizeRel/light-effects.map
-          build/src/HighSpeed/light-effects.elf
-          build/src/HighSpeed/light-effects.hex
-          build/src/HighSpeed/light-effects.map
-          build/src/MaxSpeed/light-effects.elf
-          build/src/MaxSpeed/light-effects.hex
-          build/src/MaxSpeed/light-effects.map
+          build/Debug/light-effects.elf
+          build/Debug/light-effects.hex
+          build/Debug/light-effects.map
+          build/Medium/light-effects.elf
+          build/Medium/light-effects.hex
+          build/Medium/light-effects.map
+          build/Release/light-effects.elf
+          build/Release/light-effects.hex
+          build/Release/light-effects.map
+          build/RelWithDebInfo/light-effects.elf
+          build/RelWithDebInfo/light-effects.hex
+          build/RelWithDebInfo/light-effects.map
+          build/MinSizeRel/light-effects.elf
+          build/MinSizeRel/light-effects.hex
+          build/MinSizeRel/light-effects.map
+          build/HighSpeed/light-effects.elf
+          build/HighSpeed/light-effects.hex
+          build/HighSpeed/light-effects.map
+          build/MaxSpeed/light-effects.elf
+          build/MaxSpeed/light-effects.hex
+          build/MaxSpeed/light-effects.map
         if-no-files-found: error
 

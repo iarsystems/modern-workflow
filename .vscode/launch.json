@@ -1,121 +1,143 @@
+// For details on each supported attribute, refer to the autocompletion
+// suggestions and tooltips provided by the IAR C-SPY Debug extension.
+
+// With the IAR C-SPY Debug extension you can enable flexible workflows
+// such as one to flash and launch the application in C-SPY, and another
+// to reattach to the running target as needed:
+//   "request": ":attach"
+//   "leaveTargetRunning": true
+
+// The driverOptions accepts an array with supported C-SPY command line
+// options. For the complete reference, refer to:
+// https://docs.iar.com/ewarm/10.1x/en/c-spy-debugging/the-c-spy-command-line-utility-cspybat.html
 {
-    // .vscode/launch.json example for IAR Build Tools (Linux)
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "IAR Debug (Simulator)",
-            "type": "cspy",
-            "request": "launch",
-            "target": "arm",
-            "program": "${command:cmake.launchTargetPath}",
-            "stopOnSymbol": "main",
-            "workbenchPath": "/opt/iar/cxarm",
-            "projectPath": "${workspaceRoot}",
-            "driver": "Simulator",
-            "driverOptions": [
-                "--endian=little",
-                "--cpu=Cortex-M4",
-                "--fpu=VFPv4_SP",
-                "-p",
-                "/opt/iar/cxarm/arm/config/debugger/ST/STM32F429II.ddf",
-                "--semihosting",
-                "--device=STM32F429II",
-            ]
-        },
-        {
-            "name": "IAR Debug (Linux/I-Jet/SWD)",
-            "type": "cspy",
-            "request": "launch",
-            "target": "arm",
-            "program": "${command:cmake.launchTargetPath}",
-            "stopOnSymbol": "main",
-            "projectPath": "${workspaceRoot}",
-            "workbenchPath": "/opt/iar/cxarm",
-            "driver": "I-jet",
-            "driverOptions": [
-                "--endian=little",
-                "--cpu=Cortex-M4",
-                "--fpu=VFPv4_SP",
-                "-p",
-                "/opt/iar/cxarm/arm/config/debugger/ST/STM32F429II.ddf",
-                "--device=STM32F429II",
-                "--semihosting",
-                "--jet_power_from_probe=leave_on",
-                "--drv_interface=SWD",
-                "--jet_cpu_clock=168000000",
-                "--jet_standard_reset=2,10,10",
-                "--drv_catch_exceptions=0xff0"
-            ],
-            "download": {
-                "flashLoader": "/opt/iar/cxarm/arm/config/flashloader/ST/FlashSTM32F427xI.board",
-                "deviceMacros": [
-                    "/opt/iar/cxarm/arm/config/debugger/ST/STM32F4xx.dmac"
-                ]
-            }
-        },
-        // {
-        //     "name": "IAR Debug (Linux/I-Jet/ETM)",
-        //     "type": "cspy",
-        //     "request": "launch",
-        //     "target": "arm",
-        //     "program": "${command:cmake.launchTargetPath}",
-        //     "stopOnSymbol": "main",
-        //     "projectPath": "${workspaceRoot}",
-        //     "driver": "I-jet",
-        //     "workbenchPath": "/opt/iar/cxarm",
-        //     "driverOptions": [
-        //         "--endian=little",
-        //         "--cpu=Cortex-M4",
-        //         "--fpu=VFPv4_SP",
-        //         "-p",
-        //         "/opt/iar/cxarm/arm/config/debugger/ST/STM32F429II.ddf",
-        //         "--device=STM32F429II",
-        //         "--semihosting",
-        //         "--jet_power_from_probe=leave_on",
-        //         "--drv_interface=SWD",
-        //         "--jet_cpu_clock=168000000",
-        //         "--drv_catch_exceptions=0xff0",
-        //         "--drv_trace_settings=ETM"
-        //     ],
-        //     "download": {
-        //         "flashLoader": "/opt/iar/cxarm/arm/config/flashloader/ST/FlashSTM32F427xI.board",
-        //         "deviceMacros": [
-        //             "$/opt/iar/cxarm/arm/config/debugger/ST/STM32F4xx.dmac"
-        //         ]
-        //     }
-        // },
-        {
-            "name": "IAR Debug (Linux/J-Link)",
-            "type": "cspy",
-            "request": "launch",
-            "target": "arm",
-            "program": "${command:cmake.launchTargetPath}",
-            "stopOnSymbol": "main",
-            "projectPath": "${workspaceRoot}",
-            "workbenchPath": "/opt/iar/cxarm",
-            "driver": "J-Link/J-Trace",
-            "driverOptions": [
-                "--endian=little",
-                "--cpu=Cortex-M4",
-                "--fpu=VFPv4_SP",
-                "-p",
-                "/opt/iar/cxarm/arm/config/debugger/ST/STM32F429II.ddf",
-                "--device=STM32F429II",
-                "--semihosting",
-                "--drv_communication=USB0",
-                "--drv_interface_speed=auto",
-                "--jlink_initial_speed=1000",
-                "--jlink_reset_strategy=0,0",
-                "--drv_interface=SWD",
-                "--drv_catch_exceptions=0x000",
-                "--drv_swo_clock_setup=168000000,0,2000000"
-            ],
-            //"download": {
-            //    "flashLoader": "/opt/iar/cxarm/arm/config/flashloader/ST/FlashSTM32F427xI.board",
-            //    "deviceMacros": [
-            //        "/opt/iar/cxarm/arm/config/debugger/ST/STM32F4xx.dmac"
-            //    ]
-            //}
-        }
+  "version": "0.2.0",
+  "inputs": [
+    {
+      "id": "toolkitDir",
+      "type": "command",
+      "command": "cmake.cacheVariable",
+      "args": { "name": "TOOLKIT_DIR" }
+    }
+  ],
+  "configurations": [
+    {
+    "name": "IAR Debug (Simulator)",
+    "type": "cspy",
+    "request": "launch", // "attach" also supported
+    "target": "arm",
+    "program": "${command:cmake.launchTargetPath}",
+    "stopOnSymbol": "main",
+    "workbenchPath": "${input:toolkitDir}/..",
+    "projectPath": "${workspaceRoot}",
+    "driver": "Simulator",
+    "driverOptions": [ // Match your Device/CPU/FPU/DDF
+      "--endian=little",
+      "--cpu=Cortex-M4",
+      "--fpu=VFPv4_SP",
+      "-p",
+      "${input:toolkitDir}/config/debugger/ST/STM32F429II.ddf",
+      "--semihosting",
+      "--device=STM32F429II"
     ]
+    },
+    {
+    "name": "IAR Debug (Linux/I-Jet/SWD)",
+    "type": "cspy",
+      "request": "launch", // "attach" also supported
+      "leaveTargetRunning": false, // use true when request: attach
+      "target": "arm",
+      "program": "${command:cmake.launchTargetPath}", //"$TARGET_PATH$",
+      "stopOnSymbol": "main",
+      "projectPath": "${workspaceRoot}",
+      "workbenchPath": "${input:toolkitDir}/..",
+      "driver": "I-jet",
+      "driverOptions": [ // Match your Device/CPU/FPU/DDF
+        "--endian=little",
+        "--cpu=Cortex-M4",
+        "--fpu=VFPv4_SP",
+        "-p",
+        "${input:toolkitDir}/config/debugger/ST/STM32F429II.ddf",
+        "--device=STM32F429II",
+        "--semihosting",
+        "--jet_power_from_probe=leave_on",
+        "--drv_interface=SWD",
+        "--jet_cpu_clock=168000000",
+        "--jet_standard_reset=2,10,10",
+        "--drv_catch_exceptions=0xff0"
+      ],
+      "download": {
+        "flashLoader": "${input:toolkitDir}/config/flashloader/ST/FlashSTM32F427xI.board",
+        "deviceMacros": [
+          "${input:toolkitDir}/config/debugger/ST/STM32F4xx.dmac"
+        ]
+      }
+    },
+    {
+      "name": "IAR Debug (Linux/I-Jet/ETM)",
+      "type": "cspy",
+      "request": "launch",
+      "leaveTargetRunning": false, // use true when request: attach
+      "target": "arm",
+      "program": "${command:cmake.launchTargetPath}",
+      "stopOnSymbol": "main",
+      "projectPath": "${workspaceRoot}",
+      "driver": "I-jet",
+      "workbenchPath": "${input:toolkitDir}/..",
+      "driverOptions": [ // Match your Device/CPU/FPU/DDF
+        "--endian=little",
+        "--cpu=Cortex-M4",
+        "--fpu=VFPv4_SP",
+        "-p",
+        "${input:toolkitDir}/config/debugger/ST/STM32F429II.ddf",
+        "--device=STM32F429II",
+        "--semihosting",
+        "--jet_power_from_probe=leave_on",
+        "--drv_interface=SWD",
+        "--jet_cpu_clock=168000000",
+        "--drv_catch_exceptions=0xff0",
+        "--drv_trace_settings=ETM"
+      ],
+      "download": {
+        "flashLoader": "${input:toolkitDir}/config/flashloader/ST/FlashSTM32F427xI.board",
+        "deviceMacros": [
+          "$${input:toolkitDir}/config/debugger/ST/STM32F4xx.dmac"
+        ]
+      }
+    },
+    {
+      "name": "IAR Debug (Linux/J-Link)",
+      "type": "cspy",
+      "request": "launch",
+      "leaveTargetRunning": false, // use true when request: attach
+      "target": "arm",
+      "program": "${command:cmake.launchTargetPath}",
+      "stopOnSymbol": "main",
+      "projectPath": "${workspaceRoot}",
+      "workbenchPath": "${input:toolkitDir}/..",
+      "driver": "J-Link/J-Trace",
+      "driverOptions": [ // Match your Device/CPU/FPU/DDF
+        "--endian=little",
+        "--cpu=Cortex-M4",
+        "--fpu=VFPv4_SP",
+        "-p",
+        "${input:toolkitDir}/config/debugger/ST/STM32F429II.ddf",
+        "--device=STM32F429II",
+        "--semihosting",
+        "--drv_communication=USB0",
+        "--drv_interface_speed=auto",
+        "--jlink_initial_speed=1000",
+        "--jlink_reset_strategy=0,0",
+        "--drv_interface=SWD",
+        "--drv_catch_exceptions=0x000",
+        "--drv_swo_clock_setup=168000000,0,2000000"
+      ],
+      //"download": {
+      //  "flashLoader": "${input:toolkitDir}/config/flashloader/ST/FlashSTM32F427xI.board",
+      //  "deviceMacros": [
+      //    "${input:toolkitDir}/config/debugger/ST/STM32F4xx.dmac"
+      //  ]
+      //}
+    }
+  ]
 }

@@ -1,66 +1,67 @@
-# Add a library
-add_library(util)
+add_subdirectory(acutest)
 
-# Sources: library
+# Add a utility library example
+add_library(util)
 target_sources(util PRIVATE
   bm_search.c
   crc16.c
   crc32.c
   linear_search.c
+  ring_buffer.c
 )
+target_link_libraries(util PUBLIC driver)
 
-# Properties: library
-set_target_properties(
-  util
-  PROPERTIES
-    COMPILE_OPTIONS "--cpu=${CPU};--dlib_config=full;--no_wrap_diagnostics"
+# Examples of unit tests for the utility library
+add_executable(test_bm_search)
+target_sources(test_bm_search PRIVATE FILE_SET skip_lint TYPE SOURCES
+  FILES
+    bm_search_test.c
 )
+target_link_libraries(test_bm_search PRIVATE util acutest)
+set_property(FILE_SET skip_lint TARGET test_bm_search PROPERTY SKIP_LINTING ON)
+iar_cspysim(test_bm_search 91)
 
-
-
-# Unit tests
-add_executable(hello_test)
-add_executable(crc16_test)
-add_executable(crc32_test)
-add_executable(bm_search_test)
-add_executable(linear_search_test)
-
-# Sources: unit tests
-target_sources(hello_test PRIVATE
-  hello_test.c
+add_executable(test_crc16)
+target_sources(test_crc16 PRIVATE FILE_SET skip_lint TYPE SOURCES
+  FILES
+    crc16_test.c
 )
-target_sources(crc16_test PRIVATE
-  crc16_test.c
-)
-target_sources(crc32_test PRIVATE
-  crc32_test.c
-)
-target_sources(bm_search_test PRIVATE
-  bm_search_test.c
-)
-target_sources(linear_search_test PRIVATE
-  linear_search_test.c
-)
+target_link_libraries(test_crc16 PRIVATE util acutest)
+set_property(FILE_SET skip_lint TARGET test_crc16 PROPERTY SKIP_LINTING ON)
+iar_cspysim(test_crc16 100)
 
-# Properties: unit tests
-set_target_properties(
-  bm_search_test
-  crc16_test
-  crc32_test
-  linear_search_test
-  hello_test
-  PROPERTIES
-    INCLUDE_DIRECTORIES ${PROJECT_SOURCE_DIR}/acutest/include  
-    COMPILE_OPTIONS "--cpu=${CPU};--dlib_config=full;--no_wrap_diagnostics"
-    LINK_OPTIONS "--cpu=${CPU};--semihosting;--redirect=_Printf=_PrintfFullNoMb"
-    LINK_LIBRARIES util
+add_executable(test_crc32)
+target_sources(test_crc32 PRIVATE FILE_SET skip_lint TYPE SOURCES
+  FILES
+    crc32_test.c
 )
+target_link_libraries(test_crc32 util acutest)
+set_property(FILE_SET skip_lint TARGET test_crc32 PROPERTY SKIP_LINTING ON)
+iar_cspysim(test_crc32 100)
 
-# Use IAR C-SPY to perform
-# unit testing and code coverage
-iar_cspysim(hello_test 0)
-iar_cspysim(bm_search_test 91)
-iar_cspysim(linear_search_test 100)
-iar_cspysim(crc16_test 100)
-iar_cspysim(crc32_test 100)
+add_executable(test_hello)
+target_sources(test_hello PRIVATE FILE_SET skip_lint TYPE SOURCES
+  FILES
+    hello_test.c
+)
+target_link_libraries(test_hello PRIVATE util acutest)
+set_property(FILE_SET skip_lint TARGET test_hello PROPERTY SKIP_LINTING ON)
+iar_cspysim(test_hello 0)
 
+add_executable(test_linear_search)
+target_sources(test_linear_search PRIVATE FILE_SET skip_lint TYPE SOURCES
+  FILES
+    linear_search_test.c
+)
+target_link_libraries(test_linear_search PRIVATE util acutest)
+set_property(FILE_SET skip_lint TARGET test_linear_search PROPERTY SKIP_LINTING ON)
+iar_cspysim(test_linear_search 100)
+
+add_executable(test_ring_buffer)
+target_sources(test_ring_buffer PRIVATE FILE_SET skip_lint TYPE SOURCES
+  FILES
+    ring_buffer_test.c
+)
+target_link_libraries(test_ring_buffer PRIVATE util acutest)
+set_property(FILE_SET skip_lint TARGET test_ring_buffer PROPERTY SKIP_LINTING ON)
+iar_cspysim(test_ring_buffer 86)
