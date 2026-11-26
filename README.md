@@ -83,7 +83,7 @@ export CXX=${CC}
 export ASM=/opt/iar/cxarm/arm/bin/iasmarm
 
 # Configure the project using Ninja Multi-Config
-$ cmake --preset ninja-multi
+$ cmake --preset iccarm
 
 # Build the Coverage configuration
 # (Coverage, Debug, Medium, Release, RelWithDebInfo, MinSizeRel, HighSpeed, MaxSpeed)

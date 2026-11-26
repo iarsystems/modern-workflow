@@ -1,3 +1,12 @@
+// SPDX-License-Identifier: MIT
+/**
+ * @file bm_search.c
+ * @brief Simple BM Search implementation.
+ *
+ * @copyright Copyright (c) 2020-2026 IAR Systems AB.
+ *            All rights reserved.
+ */
+
 #include <stddef.h>
 #include <stdint.h>
 

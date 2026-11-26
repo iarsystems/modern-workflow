@@ -1,3 +1,12 @@
+// SPDX-License-Identifier: MIT
+/**
+ * @file bm_search_test.c
+ * @brief BM Search unit test.
+ *
+ * @copyright Copyright (c) 2020-2026 IAR Systems AB.
+ *            All rights reserved.
+ */
+
 #include <errno.h>
 
 #include "acutest.h"

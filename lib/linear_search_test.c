@@ -1,9 +1,17 @@
+// SPDX-License-Identifier: MIT
+/**
+ * @file linear_search_test.c
+ * @brief Linear Search unit test.
+ *
+ * @copyright Copyright (c) 2020-2026 IAR Systems AB.
+ *            All rights reserved.
+ */
+
 #include <stdint.h>
 #include <errno.h>
 
 #include "acutest.h"
 #include "util.h"
-
 
 static const data_t data_0 = { .word = {
   0xb8d0f8caul,0x36d42d43ul,0x96e6c5a0ul,0x515d7e4aul,0x7baba99eul,0x0d489ce3ul,0xa33b9776ul,0xcaa4718ful,
@@ -60,19 +68,19 @@ void linear_search_test() {
   TEST_CASE("Data 0 - Search 4");
   res = linear_search(0x00ul, &data_0);
   TEST_CHECK(0xfffffffful == res);
-  
+
   TEST_CASE("Data 1 - Search 1");
   res = linear_search(0x929cb50bul, &data_1);
   TEST_CHECK(0x00 == res);
-  
+
   TEST_CASE("Data 1 - Search 2");
   res = linear_search(0x8ee1504bul, &data_1);
   TEST_CHECK(0x40 == res);
-  
+
   TEST_CASE("Data 1 - Search 3");
   res = linear_search(0x2f99ab0eul, &data_1);
   TEST_CHECK(0x7f == res);
-  
+
   TEST_CASE("Data 1 - Search 4");
   res = linear_search(0x00ul, &data_1);
   TEST_CHECK(0xfffffffful == res);
